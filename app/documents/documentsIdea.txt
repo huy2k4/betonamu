@@ -1,0 +1,15 @@
+ở đầu vẫn sẽ là component header
+tiếp đến là div bọc
+
+page này chia làm 2 cột
+
+left sidebar (dùng để preview tài liệu): 
+1. show tài liệu dạng pdf 
+- tôi muốn chỗ này đặc biệt ở chỗ là scroll chuột thì nó lật trang, hiển thị 5 trang đầu
+- chỉ riêng vùng pdf này có hiệu ứng scroll chuột đặc biệt, những chỗ khác cuộn bình thường
+1.1 nằm gần sát vùng preview, cho tôi thanh phân trang
+2.
+
+ok, trang học tiếng nhật của tôi tuy thuộc mảng education nhưng phong cách web tôi dựa trên ecomerce. thì product ở đây sẽ là document/slug-name-of-document
+khi click vào 1 file nào đó để tải sẽ có thông tin file đó, thao tác với file
+cụ thể như nào bạn đọc trong 

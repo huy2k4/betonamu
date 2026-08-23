@@ -1,0 +1,50 @@
+LeftSidebar:
++ tài liệu miễn phí
++ học từ  vựng
++ học kaiwa
++ luyện thi JLPT N5-N1 (coming soon + disable)
++ văn hóa nhật (coming soon + disable)
+- Trình độ JLPT
++ N1
++ N2
++ N3
++ N4
++ N5
+- Kĩ năng
++ Hán tự
++ Ngữ pháp
++ Từ vựng
++ Nghe
++ Nói
++ Đọc
+
+Main content
+- hover tài liệu miễn phí:
++ Gợi ý cho bạn: show 3 item: Mina  No Nihongo, Somatome, Mimikara oboeru
++ gợi ý tiếp theo sẽ là : Mina N5, Mina N4, Somatome N5, Mimikara N4 (dùng icon bìa tôi đã thêm)
++ mục 3 chia 3 cột:
+    + sơ cấp
+    + trung cấp - cao cấp
+    + kĩ năng
++ tiếp theo cho mục đề thi: chia 5 hàng, mỗi hàng 3-4 item không cần rập khuông, gap vài px là được
+đề thi bao gồm JLPT N5 T7 2022,JLPT N4 T7 2022, JLPT N3 T7 2022, JLPT N2 T7 2022, ...
+
+
+
+
+
+
+
+- hover học từ vựng:
++ để trống
+
+- hover kaiwa:
++ để trống
+
+Rightsidebar: có những tiện ích sau:
++ Thi thử JLPT (coming soon + disable)
++ Chấm bài viết Trực tiếp (coming soon + disable)
++ Giao tiếp 1-1 (coming soon + disable)
++ Luyện FlashCard (coming soon + disable)
++ 1 banner quảng cáo 
+

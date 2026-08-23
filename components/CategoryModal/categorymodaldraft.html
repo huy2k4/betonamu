@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+
+<html lang="vi"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Category Menu Clone</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<style data-purpose="custom-styles">
+    /* Custom scrollbar for main content if needed */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f1f1;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #c1c1c1;
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #a8a8a8;
+    }
+  </style>
+</head>
+<body class="bg-[#f4f4f4] font-sans text-sm text-gray-800 p-8 min-h-screen">
+<!-- BEGIN: MainContainer -->
+<div class="max-w-7xl mx-auto bg-white rounded-xl shadow-lg flex overflow-hidden border border-gray-200 h-[600px]">
+<!-- BEGIN: Left Sidebar -->
+<aside class="w-64 border-r border-gray-200 flex flex-col bg-white overflow-y-auto overflow-x-hidden custom-scrollbar py-2">
+<!-- Primary Categories -->
+<ul class="flex flex-col mb-4">
+<li class="bg-gray-100 rounded-lg mx-2 mb-1">
+<a class="flex items-center px-4 py-2.5 text-black font-semibold" href="#">
+<svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 18h.01M8 21h8a2 2 0 002-2V5a2 2 0 00-2-2H8a2 2 0 00-2 2v14a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+            Điện thoại
+          </a>
+</li>
+<li class="mx-2 mb-1 hover:bg-gray-50 rounded-lg transition-colors">
+<a class="flex items-center px-4 py-2.5 text-gray-700 font-medium" href="#">
+<svg class="w-5 h-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+            Laptop
+          </a>
+</li>
+<li class="mx-2 mb-1 hover:bg-gray-50 rounded-lg transition-colors">
+<a class="flex items-center px-4 py-2.5 text-gray-700 font-medium" href="#">
+<svg class="w-5 h-5 mr-3 text-red-500" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+            Điện máy
+          </a>
+</li>
+<li class="mx-2 mb-1 hover:bg-gray-50 rounded-lg transition-colors">
+<a class="flex items-center px-4 py-2.5 text-gray-700 font-medium" href="#">
+<svg class="w-5 h-5 mr-3 text-gray-500" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+            Phụ kiện
+          </a>
+</li>
+</ul>
+<!-- Brand Pages Section -->
+<div class="px-4 py-2">
+<h3 class="text-xs text-gray-400 font-medium uppercase tracking-wider mb-3 flex items-center">
+<span class="mr-2">Chuyên trang thương hiệu</span>
+<div class="h-px bg-gray-200 flex-grow"></div>
+</h3>
+<div class="grid grid-cols-2 gap-2">
+<a class="flex items-center text-gray-700 hover:text-blue-600" href="#">
+<span class="w-6 h-6 mr-2 bg-black text-white rounded-full flex items-center justify-center text-[10px] font-bold">A</span>
+<span>Apple</span>
+</a>
+<a class="flex items-center text-gray-700 hover:text-blue-600" href="#">
+<span class="w-6 h-6 mr-2 bg-blue-600 text-white rounded-full flex items-center justify-center text-[10px] font-bold">S</span>
+<span>Samsung</span>
+</a>
+<a class="flex items-center text-gray-700 hover:text-blue-600 mt-2" href="#">
+<span class="w-6 h-6 mr-2 bg-orange-500 text-white rounded-full flex items-center justify-center text-[10px] font-bold">mi</span>
+<span>Xiaomi</span>
+</a>
+<a class="flex items-center text-gray-700 hover:text-blue-600 mt-2" href="#">
+<span class="w-6 h-6 mr-2 bg-red-600 text-white rounded-full flex items-center justify-center text-[10px] font-bold">LG</span>
+<span>LG</span>
+</a>
+<a class="flex items-center text-gray-700 hover:text-blue-600 mt-2" href="#">
+<span class="w-6 h-6 mr-2 bg-black text-white rounded-full flex items-center justify-center text-[8px] font-bold">Garmin</span>
+<span>Garmin</span>
+</a>
+</div>
+</div>
+<!-- Electronics Section -->
+<div class="px-4 py-3 mt-2">
+<h3 class="text-xs text-gray-400 font-medium uppercase tracking-wider mb-3 flex items-center">
+<span class="mr-2">Điện tử, điện lạnh</span>
+<div class="h-px bg-gray-200 flex-grow"></div>
+</h3>
+<ul class="flex flex-col space-y-2.5">
+<li>
+<a class="flex items-center text-gray-700 hover:text-blue-600" href="#">
+<svg class="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+              Tivi, Máy lạnh - Điều hòa
+            </a>
+</li>
+<li>
+<a class="flex items-center text-gray-700 hover:text-blue-600" href="#">
+<svg class="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+              Tủ lạnh, Tủ đông, Tủ mát
+            </a>
+</li>
+<li>
+<a class="flex items-center text-gray-700 hover:text-blue-600" href="#">
+<svg class="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+              Máy giặt, Máy sấy, Tủ sấy
+            </a>
+</li>
+</ul>
+</div>
+<!-- Digital Tech Section -->
+<div class="px-4 py-3 mt-2">
+<h3 class="text-xs text-gray-400 font-medium uppercase tracking-wider mb-3 flex items-center">
+<span class="mr-2">Công nghệ &amp; thiết bị số</span>
+<div class="h-px bg-gray-200 flex-grow"></div>
+</h3>
+<ul class="flex flex-col space-y-2.5">
+<li>
+<a class="flex items-center text-gray-700 hover:text-blue-600" href="#">
+<svg class="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+              Đồng hồ, Máy tính bảng
+            </a>
+</li>
+<li>
+<a class="flex items-center text-gray-700 hover:text-blue-600" href="#">
+<svg class="w-5 h-5 mr-3 text-gray-400" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+              PC, Màn hình, Linh kiện
+            </a>
+</li>
+</ul>
+</div>
+</aside>
+<!-- END: Left Sidebar -->
+<!-- BEGIN: Main Content Area -->
+<main class="flex-1 bg-white p-6 overflow-y-auto custom-scrollbar border-r border-gray-200">
+<!-- Header Section -->
+<div class="mb-6">
+<h2 class="text-xl font-bold flex items-center text-gray-800 mb-4">
+<span class="mr-2 text-2xl">🔥</span> Gợi ý cho bạn
+        </h2>
+<!-- Brand Chips -->
+<div class="flex flex-wrap gap-2 mb-6">
+<a class="border border-gray-200 rounded-md px-3 py-1.5 flex items-center hover:shadow-sm transition-shadow" href="#">
+<span class="w-4 h-4 mr-1 bg-black text-white rounded-full flex items-center justify-center text-[8px]">A</span>
+            iPhone
+          </a>
+<a class="border border-gray-200 rounded-md px-3 py-1.5 text-blue-700 font-semibold hover:shadow-sm transition-shadow" href="#">
+            SAMSUNG
+          </a>
+<a class="border border-gray-200 rounded-md px-3 py-1.5 flex items-center text-orange-500 font-semibold hover:shadow-sm transition-shadow" href="#">
+<span class="w-4 h-4 mr-1 bg-orange-500 text-white rounded-full flex items-center justify-center text-[8px]">mi</span>
+            xiaomi
+          </a>
+<a class="border border-gray-200 rounded-md px-3 py-1.5 text-green-600 font-bold hover:shadow-sm transition-shadow" href="#">
+            oppo
+          </a>
+<a class="border border-gray-200 rounded-md px-3 py-1.5 text-black font-bold hover:shadow-sm transition-shadow" href="#">
+            HONOR
+          </a>
+<a class="border border-gray-200 rounded-md px-3 py-1.5 text-blue-600 font-bold hover:shadow-sm transition-shadow" href="#">
+            TECNO
+          </a>
+</div>
+<!-- Visual Categories -->
+<div class="flex gap-8 mb-8 justify-center lg:justify-start">
+<a class="flex flex-col items-center group" href="#">
+<div class="w-16 h-16 bg-blue-900 rounded-xl flex items-center justify-center mb-2 group-hover:-translate-y-1 transition-transform">
+<span class="text-white font-bold text-xl">5G</span>
+</div>
+<span class="text-xs text-gray-700">Điện thoại 5G</span>
+</a>
+<a class="flex flex-col items-center group" href="#">
+<div class="w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center mb-2 group-hover:-translate-y-1 transition-transform overflow-hidden">
+<img alt="AI Phone" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbRHqojsyyBPYPy255-UVn8OsgYVxedpPb1mmFGx8AOEUTUIm39tWetotMGNcX7RrQeyvlYbRCKbuCicOxS6mmFR1jsjKjjQhQhk1tawHEnr_jEOaxsckSAQEayQ6o1gGRG1uuCKVG-zKNaVSOZDx_JNTAySyyZO-06CaL5nOaJ_Hdz7p93AKXX5C3neKtx8r1s-2ziZA7Sj_z9yG29UXkHggAgxA1MarKrZzUKLLUQEeQMm3f1w"/>
+</div>
+<span class="text-xs text-gray-700">Điện thoại AI</span>
+</a>
+<a class="flex flex-col items-center group" href="#">
+<div class="w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center mb-2 group-hover:-translate-y-1 transition-transform overflow-hidden">
+<img alt="Foldable Phone" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBGQFnWU_CrsANzRTLQHSFsaeaa73S1zuMeDoOIychEchzSv-7UCBtCiU8paRLmRiNFehWb7gTxT9BoM97_m_xAUdLtqF9nVYJ2jzNB_CQnALW5zf-bOIQkPRUulrPxgWDIpAtqnatKX77taTusrSrA8vT7mqth0PUE_JIsFLBmWXDvY8T4aA3Fu3VQ9rO7I6sYHsWOmUbfufiM_awFlnweuxQ4yYdFxdp5Eo2C0M4jTyZoCV-S5Q"/>
+</div>
+<span class="text-xs text-gray-700">Điện thoại gập</span>
+</a>
+<a class="flex flex-col items-center group" href="#">
+<div class="w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center mb-2 group-hover:-translate-y-1 transition-transform overflow-hidden">
+<img alt="Gaming Phone" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBar-95DMja54P_pFli_ritCP_nKADCPo9OpTRqGK0ivZ_ooPAauOPXkXN7wpUuF5vQXVRwvuX30FV9QRLJnnUpPHpEkZtmerWrZjABCdjDrHtoPoEQtwziFXLYRKsoPbUJazZPfCr0Z9rfwXcUl35gNnaBcPjHf5P5zUWmapCe0Ydn1MRGCt01HGOcmLmQyyqGt5iue6uM4w7hhic9y8vI-ZiS8feurD1XfbG6Gq_62oQBLau6_Q"/>
+</div>
+<span class="text-xs text-gray-700">Gaming phone</span>
+</a>
+<a class="flex flex-col items-center group" href="#">
+<div class="w-16 h-16 bg-gray-100 rounded-xl flex items-center justify-center mb-2 group-hover:-translate-y-1 transition-transform overflow-hidden">
+<img alt="Feature Phone 4G" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBl0nJjdNOcCqnwK424jPAXCfRXcpHXLP6Ag0CNfG2Oof0oRSfpKmYSaCDbmAgYPvIavbD-Uweau1VJwhsX_K--uhc_TYW6aleiSH-Z0fPCtjMIXBiv4ZGE0lqofKSNXHP-XCn6R-tRdIGCJT_xdpdCtMSuQcj0P6FXh_rSbGgDbe7Z_RHnIa_XKDiHl4_wFf2xGs3kMCRjnNa4m1YfEu23_OvmWCc-qbtV38fMDso9Li7JOsJ2sg"/>
+</div>
+<span class="text-xs text-gray-700">Phổ thông 4G</span>
+</a>
+</div>
+</div>
+<!-- Detail Categories Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-6 gap-y-8 pb-8">
+<!-- Apple Column -->
+<div>
+<h4 class="font-bold text-gray-800 mb-3 flex items-center hover:text-blue-600 cursor-pointer">
+            Apple (iPhone) <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</h4>
+<ul class="space-y-2.5">
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">iPhone 17 Series</a></li>
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">iPhone 16 Series</a></li>
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">iPhone 15 Series</a></li>
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">iPhone Air</a></li>
+</ul>
+<h4 class="font-bold text-gray-800 mt-6 mb-3 flex items-center hover:text-blue-600 cursor-pointer">
+            Xiaomi <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</h4>
+<ul class="space-y-2.5">
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">Poco Series</a></li>
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">Xiaomi Series</a></li>
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">Redmi Note Series</a></li>
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">Redmi Series</a></li>
+</ul>
+<h4 class="font-bold text-gray-800 mt-6 mb-3">Thương hiệu khác</h4>
+<ul class="space-y-2.5">
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">Tecno</a></li>
+</ul>
+</div>
+<!-- Samsung Column -->
+<div>
+<h4 class="font-bold text-gray-800 mb-3 flex items-center hover:text-blue-600 cursor-pointer">
+            Samsung <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</h4>
+<ul class="space-y-2.5">
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">Galaxy AI</a></li>
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">Galaxy S Series</a></li>
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">Galaxy Z Series</a></li>
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">Galaxy A Series</a></li>
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">Galaxy XCover</a></li>
+</ul>
+<h4 class="font-bold text-gray-800 mt-6 mb-3 flex items-center hover:text-blue-600 cursor-pointer">
+            Nubia <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</h4>
+<ul class="space-y-2.5">
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">Nubia Neo Series</a></li>
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">Nubia V Series</a></li>
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">Nubia A Series</a></li>
+</ul>
+<h4 class="font-bold text-gray-800 mt-6 mb-3 flex items-center hover:text-blue-600 cursor-pointer">
+            Phổ thông 4G <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</h4>
+<ul class="space-y-2.5">
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">Nokia</a></li>
+</ul>
+</div>
+<!-- OPPO / HONOR Column -->
+<div>
+<h4 class="font-bold text-gray-800 mb-3 flex items-center hover:text-blue-600 cursor-pointer">
+            OPPO <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</h4>
+<ul class="space-y-2.5">
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">OPPO Reno Series</a></li>
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">OPPO A Series</a></li>
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">OPPO Find Series</a></li>
+</ul>
+<h4 class="font-bold text-gray-800 mt-6 mb-3 flex items-center hover:text-blue-600 cursor-pointer">
+            HONOR <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"></path></svg>
+</h4>
+<ul class="space-y-2.5">
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">HONOR Series</a></li>
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">HONOR Magic Series</a></li>
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">HONOR X Series</a></li>
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">HONOR Play Series</a></li>
+</ul>
+<h4 class="font-bold text-gray-800 mt-6 mb-3">Theo phân khúc giá</h4>
+<ul class="space-y-2.5">
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">Dưới 2 triệu</a></li>
+<li><a class="text-gray-600 hover:text-blue-600 text-[13px]" href="#">Từ 2 - 4 triệu</a></li>
+</ul>
+</div>
+</div>
+</main>
+<!-- END: Main Content Area -->
+<!-- BEGIN: Right Sidebar Utilities -->
+<aside class="w-64 bg-[#f9f9fa] flex flex-col p-4 overflow-y-auto">
+<div class="space-y-3 mb-4 flex-grow">
+<a class="bg-white rounded-xl p-3 flex items-center shadow-sm hover:shadow-md transition-shadow" href="#">
+<div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center mr-3 shrink-0">
+<img alt="Máy cũ" class="w-6 h-6 object-contain rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBmIykrDHWGWZbot-DzOE8cnclJ6tNJtONooMH2QLN8z0btYo_9WPfp9QJ_JJ3GQuEJyx_t8xk28Rri_cxLIE8vNnHNSqgI-8RlSjiz0sTjgDqJpUp3Ec1EmSzTCwyQ_wN1-GQVbIhQ_Y8WWkwZR_fAk8CPEKl4QNC9hEka0J53bYbvHdA4fShpFG3O3jb_JC0uzhrfb8UrqMoTUY22Ib2l3I5coL4D3xDSwckPfvs2KQv8-N51YA"/>
+</div>
+<span class="font-medium text-gray-800 text-[13px]">Máy cũ</span>
+</a>
+<a class="bg-white rounded-xl p-3 flex items-center shadow-sm hover:shadow-md transition-shadow" href="#">
+<div class="w-10 h-10 bg-gray-50 rounded-full flex items-center justify-center mr-3 shrink-0">
+<span class="text-[10px] font-bold border border-gray-400 p-1 rounded">TIN HOT</span>
+</div>
+<span class="font-medium text-gray-800 text-[13px]">Thông tin hay</span>
+</a>
+<a class="bg-white rounded-xl p-3 flex items-center shadow-sm hover:shadow-md transition-shadow" href="#">
+<div class="w-10 h-10 bg-orange-50 rounded-full flex items-center justify-center mr-3 shrink-0">
+<img alt="Sim" class="w-6 h-6 object-contain rounded-full" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDmkZc7RqABSLKNrb0afs3ucF8w3JBXr-__rRqckrbdL8As1lgHswl2D7yPYCd9qW8eSiuv5ykYhrMEUWUI1H0imxc2chmcUKDaAQAsaroxp-3-WyNaGjcTVjw-KmOPO-RLwnXzIas45KdA7zEh0z03UgwzNMXGosPBgWUoKVpcTo11eKPzxCjtseC0wWV6tzBp4CfI3DuXkrxBd1cuAMzOWQB-ib-Hpowil-OXbjbvc5ELi1q6Ig"/>
+</div>
+<span class="font-medium text-gray-800 text-[13px] leading-tight">Sim thẻ Thanh toán<br/>tiện ích</span>
+</a>
+<a class="bg-white rounded-xl p-3 flex items-center shadow-sm hover:shadow-md transition-shadow" href="#">
+<div class="w-10 h-10 bg-black rounded-full flex items-center justify-center mr-3 shrink-0">
+<span class="text-white text-[9px] font-bold text-center leading-none">ĐẶC<br/>QUYỀN</span>
+</div>
+<span class="font-medium text-gray-800 text-[13px]">Đặc quyền đối tác</span>
+</a>
+<a class="bg-white rounded-xl p-3 flex items-center shadow-sm hover:shadow-md transition-shadow" href="#">
+<div class="w-10 h-10 bg-blue-50 rounded-full flex items-center justify-center mr-3 shrink-0 overflow-hidden">
+<img alt="B2B" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAGCOZVt9lOm-78WpCzJNCiyu73buCLdFxOe5u5Ut4Gwl43SKzuQex33FqD3S7_cSbtnY9MLmXh1B5mjV0-DvvoMS-3rx2R_PvfR5UnvOi9oqdzAcMLGcagVjVUHsS9QZxPAMK1YD5tehtsY1T5I8YDY-5n82CRCVV1wqMSIaj0OF1O8pY4uX0GaUxtQuK8u96MkjE-5lPiGTkUQJ2jwavHhS_Fyp5mPhvJSnzRfvHxraEK1JH3kw"/>
+</div>
+<span class="font-medium text-gray-800 text-[13px] leading-tight">Chiết khấu doanh<br/>nghiệp</span>
+</a>
+<a class="bg-white rounded-xl p-3 flex items-center shadow-sm hover:shadow-md transition-shadow" href="#">
+<div class="w-10 h-10 bg-gray-100 rounded-full flex items-center justify-center mr-3 shrink-0 overflow-hidden">
+<img alt="Tech Support" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDXr1LhhZz1CWvAtKiaHcEys5lSn4XAimR7C_00UtQ-Okq7GXbLq_QSfy0mgh_8zjbBxQtrb3GnXW6fdXaDn5t4N8hS8VfWL3cg4LeWFpeU_xN1dcPpg5v6iE2_btm4wqeXyqv2lSE5hZkjguC3802grI9YPNSbDPL3ILPUW2uRwwojUhf3oxsr36j3b1U92rzXe7fudFArKDVeTStOUQI2nLvJgtDYhJut86WOB6cMHX8Y7fuGwQ"/>
+</div>
+<span class="font-medium text-gray-800 text-[13px] leading-tight">Kỹ thuật viên hỗ trợ<br/>trực tuyến</span>
+</a>
+</div>
+<!-- Promotional Banner -->
+<div class="mt-auto rounded-xl overflow-hidden shadow-sm h-[200px] shrink-0">
+<a class="block w-full h-full" href="#">
+<img alt="Promotional Banner" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC5X7JgGtkywz6hcha0hDLLT9JXD3SQI3NAHbRfk7NAjiejYuRzlGCpLtiMO6HJURO96hPaxaEDk8QPCjmJnZLvdY1QJ64pqaffNYdgkNOvGlIYsSqW7tLSo_PstjgKPV3AQ5rm877Yi0xN0UiKhhV1NFeg8a6xNkSjsf4YcRZo315rqMgk_ylx5iQsDHDpYQdR8ynLANFBrvyc69uLG7FVgiihsxbufB_m0jLBFNPTZ3nFyqpPpg"/>
+</a>
+</div>
+</aside>
+<!-- END: Right Sidebar Utilities -->
+</div>
+<!-- END: MainContainer -->
+</body></html>

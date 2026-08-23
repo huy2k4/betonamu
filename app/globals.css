@@ -1,0 +1,53 @@
+@import "tailwindcss";
+
+:root {
+  /* ===== BETONAMU COLOR PALETTE ===== */
+
+  /* --- Backgrounds --- */
+  --bg-primary: #ffffff;
+  --bg-accent: #DDE6ED;
+  --bg-surface: #ffffff;
+  --bg-muted: #f8f9fa; /* Rất nhạt để phân biệt với bg-surface */
+
+  /* --- Text --- */
+  --text-primary: #27374D;
+  --text-secondary: #526D82;
+  --text-muted: #9DB2BF;
+
+  /* --- Accents --- */
+  --accent-blue: #27374D;
+  --accent-green: #526D82;
+  --accent-yellow: #9DB2BF;
+
+  /* --- Derived --- */
+  --accent-blue-light: #DDE6ED;
+  --accent-green-light: #DDE6ED;
+  --accent-yellow-light: #DDE6ED;
+  --accent-pink-light: #DDE6ED;
+
+  /* --- Border --- */
+  --border-color: #DDE6ED;
+  --border-color-light: #f0f4f8;
+
+  /* --- Misc --- */
+  --hot-color: #e63946; /* Giữ lại một chút màu đỏ điểm xuyết cho nhãn hot, nếu bạn muốn đổi sang tone xanh thì thay bằng #27374D */
+  --shadow-sm: 0 1px 2px rgba(2, 3, 6, 0.06);
+  --shadow-md: 0 4px 12px rgba(2, 3, 6, 0.08);
+  --shadow-lg: 0 10px 25px rgba(2, 3, 6, 0.1);
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-full: 9999px;
+}
+
+@theme inline {
+  --color-background: var(--bg-primary);
+  --color-foreground: var(--text-primary);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+body {
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  font-family: Arial, Helvetica, sans-serif;
+}

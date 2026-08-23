@@ -1,0 +1,226 @@
+/* ===== HEADER ===== */
+
+.headerContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100vw;
+  position: relative;
+  right: 10px;
+  background: var(--accent-blue);
+  padding: 0px 30px 20px 35px;
+  align-items: center;
+}
+
+.topRow {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+  max-width: 1300px;
+  padding-top: 10px;
+}
+
+.leftVerticalBar {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.headerCenter {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: center;
+  /* flex: 2 để vùng giữa rộng hơn, tránh co ép thanh search */
+  flex: 2; 
+  /* Dời cụm giữa sang trái 100px */
+  transform: translateX(-100px);
+}
+
+.headerRight {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.bottomRow {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  min-height: 0px;
+}
+
+/* 1. Logo */
+.logoContainer {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  width: max-content;
+  flex-shrink: 0;
+  margin-right: 20px;
+}
+
+.logoImage {
+  height: 40px;
+  width: auto;
+  object-fit: contain;
+}
+
+/* 2. Category */
+.categoryContainer {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 0 18px;
+  height: 44px;
+  border-radius: 30px;
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--bg-surface);
+  min-width: 140px;
+  font-weight: 500;
+  font-size: 16px;
+  flex-shrink: 0;
+  margin: 0px 8px 0 20px;
+  transition: background-color 0.2s;
+}
+
+.categoryContainer:hover {
+  background: rgba(255, 255, 255, 0.25);
+}
+
+/* Cầu nối tàng hình mở rộng (Tích hợp luôn vào wrapper) */
+.categoryModalWrapper {
+  display: none;
+  position: absolute;
+  top: 100%;
+  padding-top: 15px;
+  left: -150px; /* Cho lòi sang trái một chút */
+  z-index: 1001;
+}
+
+.categoryContainer:hover .categoryModalWrapper {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* 3. Searchbar */
+.searchContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-grow: 1;
+  max-width: 480px;
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-surface);
+  border-radius: 35px;
+  padding: 0 6px 0 16px;
+  height: 44px;
+  box-shadow: var(--shadow-md);
+  width: 100%;
+}
+
+.searchInput {
+  flex-grow: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  color: var(--text-primary);
+  width: 100%;
+}
+
+.searchInput::placeholder {
+  color: var(--text-muted);
+}
+
+.searchBtn {
+  background-color: var(--accent-blue-light);
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  margin-left: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background-color 0.2s;
+}
+
+.searchBtn:hover {
+  background-color: var(--bg-accent);
+}
+
+.searchIcon {
+  color: var(--accent-blue);
+}
+
+/* Từ khóa hot (luôn hiển thị) */
+.hotKeyword {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  margin: 5px 0px 0px 6px;
+}
+
+.hotKeyword a {
+  text-decoration: none;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.hotKeyword a:hover {
+  text-decoration: underline;
+  color: var(--bg-surface);
+}
+
+/* 4. Account */
+.accountContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  gap: 4px;
+  color: var(--bg-surface);
+  margin-left: auto;
+}
+
+.accountIconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  transition: background-color 0.2s;
+}
+
+.accountContainer:hover .accountIconWrapper {
+  background-color: rgba(255, 255, 255, 0.25);
+}
+
+.accountName {
+  font-size: 13px;
+  font-weight: 500;
+}
