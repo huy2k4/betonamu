@@ -61,7 +61,26 @@ export default function DocumentPreview({ fileUrl, fileType, fallbackImages }: D
     };
   }, [currentPage, totalPages]);
 
-  function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
+  const [containerWidth, setContainerWidth] = useState<number>(400);
+
+  // Measure the container width on mount and resize
+  useEffect(() => {
+    if (!containerRef.current) return;
+    
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        setContainerWidth(entry.contentRect.width);
+      }
+    });
+    
+    observer.observe(containerRef.current);
+    
+    return () => {
+      observer.disconnect();
+    };
+  }, []);
+
+  function onDocumentLoadSuccess({ numPages }: { numPages: number }): void {
     setNumPages(numPages);
   }
 
@@ -80,14 +99,14 @@ export default function DocumentPreview({ fileUrl, fileType, fallbackImages }: D
             <Document 
               file={fileUrl} 
               onLoadSuccess={onDocumentLoadSuccess}
-              loading={<div className={styles.loadingState}>Đang tải trang PDF...</div>}
+              loading={<div className={styles.loadingState}>Đang tải tài liệu PDF...</div>}
               error={<div className={styles.loadingState}>Không thể tải PDF.</div>}
             >
               {displayPages.map((pageIndex) => (
                 <div key={pageIndex} className={styles.pageItem}>
                   <Page 
                     pageNumber={pageIndex + 1} 
-                    width={containerRef.current?.clientWidth || 400} 
+                    width={containerWidth} 
                     renderTextLayer={false}
                     renderAnnotationLayer={false}
                   />
