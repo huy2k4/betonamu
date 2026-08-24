@@ -1,0 +1,89 @@
+/* ===== TAI LIEU SECTION ===== */
+
+.section {
+  margin-bottom: 56px;
+}
+
+/* ===== HEADER ===== */
+.sectionHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--border-color-light);
+}
+
+.titleRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sectionTitle {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+.hotIcons {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  color: var(--hot-color);
+}
+
+.hotIcon {
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.65; }
+}
+
+/* ===== FILTER ROW ===== */
+.filterRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.filterBtn {
+  padding: 5px 16px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-color);
+  background: var(--bg-surface);
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s;
+}
+
+.filterBtn:hover {
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+  background: var(--accent-blue-light);
+}
+
+.filterActive {
+  border-color: var(--accent-blue) !important;
+  background: var(--accent-blue) !important;
+  color: #fff !important;
+}
+
+/* ===== CARD GRID ===== */
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+}
+
+.noResult {
+  color: var(--text-muted);
+  font-size: 14px;
+  padding: 24px 0;
+}

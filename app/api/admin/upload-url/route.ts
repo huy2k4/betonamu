@@ -62,9 +62,12 @@ export async function POST(request: Request) {
     // Presigned URL valid for 60 seconds
     const uploadUrl = await getSignedUrl(r2Client, command, { expiresIn: 60 })
 
+    // Construct fileUrl carefully to avoid double https://
+    const finalDomain = publicDomain.startsWith('http') ? publicDomain : `https://${publicDomain}`
+    
     return NextResponse.json({
       uploadUrl,
-      fileUrl: `https://${publicDomain}/${uniqueKey}`,
+      fileUrl: `${finalDomain}/${uniqueKey}`,
       key: uniqueKey,
     })
   } catch (error: unknown) {

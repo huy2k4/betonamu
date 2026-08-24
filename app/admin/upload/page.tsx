@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState, useRef } from 'react'
-import { UploadCloud, CheckCircle, AlertCircle, FileText, Image as ImageIcon, Link2, Type, Loader2 } from 'lucide-react'
+import { UploadCloud, CheckCircle, AlertCircle, FileText, Image as ImageIcon, Link2, Type, Loader2, X } from 'lucide-react'
 
 export default function AdminUploadPage() {
   const [title, setTitle] = useState('')
@@ -9,12 +9,15 @@ export default function AdminUploadPage() {
   const [summary, setSummary] = useState('')
   const [thumbnailUrl, setThumbnailUrl] = useState('')
   const [file, setFile] = useState<File | null>(null)
+  const [previewFiles, setPreviewFiles] = useState<File[]>([])
+  
   const [loading, setLoading] = useState(false)
   const [progressStep, setProgressStep] = useState(0) // 0: None, 1: Requesting, 2: Uploading, 3: Saving
   const [status, setStatus] = useState<{ type: 'success' | 'error'; message: string } | null>(null)
   const [downloadLink, setDownloadLink] = useState('')
   
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const previewInputRef = useRef<HTMLInputElement>(null)
 
   const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value
@@ -30,10 +33,21 @@ export default function AdminUploadPage() {
     setSlug(clean)
   }
 
+  const removePreviewFile = (index: number) => {
+    setPreviewFiles(prev => prev.filter((_, i) => i !== index))
+  }
+
+  const handlePreviewFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      const newFiles = Array.from(e.target.files)
+      setPreviewFiles(prev => [...prev, ...newFiles].slice(0, 5)) // Max 5 files
+    }
+  }
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!title || !slug || !summary || !file) {
-      setStatus({ type: 'error', message: 'Vui lòng điền đầy đủ các thông tin và chọn tệp tin.' })
+      setStatus({ type: 'error', message: 'Vui lòng điền đầy đủ các thông tin và chọn tệp tin gốc.' })
       return
     }
 
@@ -41,37 +55,53 @@ export default function AdminUploadPage() {
     setStatus(null)
 
     try {
-      // 1. Get presigned upload URL
+      // Helper function to upload a single file to R2
+      const uploadToR2 = async (uploadFile: File) => {
+        const uploadUrlRes = await fetch('/api/admin/upload-url', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fileName: uploadFile.name,
+            fileType: uploadFile.type || 'application/octet-stream',
+          }),
+        })
+
+        if (!uploadUrlRes.ok) {
+          const errData = await uploadUrlRes.json()
+          throw new Error(errData.error || 'Không thể lấy URL tải lên từ R2.')
+        }
+
+        const { uploadUrl, fileUrl } = await uploadUrlRes.json()
+
+        const uploadRes = await fetch(uploadUrl, {
+          method: 'PUT',
+          headers: {
+            'Content-Type': uploadFile.type || 'application/octet-stream',
+          },
+          body: uploadFile,
+        })
+
+        if (!uploadRes.ok) {
+          throw new Error(`Tải tệp tin ${uploadFile.name} lên R2 thất bại.`)
+        }
+
+        return fileUrl
+      }
+
       setProgressStep(1)
-      const uploadUrlRes = await fetch('/api/admin/upload-url', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          fileName: file.name,
-          fileType: file.type || 'application/pdf',
-        }),
-      })
+      
+      // Upload main file
+      const mainFileUrl = await uploadToR2(file)
 
-      if (!uploadUrlRes.ok) {
-        const errData = await uploadUrlRes.json()
-        throw new Error(errData.error || 'Không thể lấy URL tải lên từ R2.')
-      }
-
-      const { uploadUrl, fileUrl } = await uploadUrlRes.json()
-
-      // 2. Upload file directly to Cloudflare R2
+      // Upload preview files
       setProgressStep(2)
-      const uploadRes = await fetch(uploadUrl, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': file.type || 'application/pdf',
-        },
-        body: file,
-      })
-
-      if (!uploadRes.ok) {
-        throw new Error('Tải tệp tin lên Cloudflare R2 thất bại.')
+      const previewUrls: string[] = []
+      for (const previewFile of previewFiles) {
+        const pUrl = await uploadToR2(previewFile)
+        previewUrls.push(pUrl)
       }
+      
+      const previewFileUrlString = previewUrls.join(',')
 
       // 3. Save metadata into Supabase Database
       setProgressStep(3)
@@ -81,8 +111,9 @@ export default function AdminUploadPage() {
         body: JSON.stringify({
           title,
           slug,
-          thumbnail_url: thumbnailUrl || fileUrl,
-          file_url: fileUrl,
+          thumbnail_url: thumbnailUrl || mainFileUrl,
+          file_url: mainFileUrl,
+          preview_file_url: previewFileUrlString,
           summary,
           file_type: file.name.split('.').pop() || 'pdf',
           file_size_bytes: file.size,
@@ -105,6 +136,7 @@ export default function AdminUploadPage() {
 
       // Reset form
       setFile(null)
+      setPreviewFiles([])
       setTitle('')
       setSlug('')
       setSummary('')
@@ -201,7 +233,7 @@ export default function AdminUploadPage() {
                     type="text"
                     value={thumbnailUrl}
                     onChange={(e) => setThumbnailUrl(e.target.value)}
-                    placeholder="Để trống sẽ tự dùng link file"
+                    placeholder="Để trống sẽ tự dùng link file gốc"
                     className="block w-full rounded-xl border-gray-200 bg-white/50 px-4 py-3 text-gray-900 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm transition-all"
                   />
                 </div>
@@ -219,7 +251,7 @@ export default function AdminUploadPage() {
                       <UploadCloud className={`mx-auto h-12 w-12 ${file ? 'text-indigo-600' : 'text-gray-300'}`} />
                       <div className="mt-4 flex text-sm leading-6 text-gray-600 justify-center">
                         <span className="relative cursor-pointer rounded-md font-semibold text-indigo-600 focus-within:outline-none hover:text-indigo-500">
-                          {file ? 'Thay đổi tệp tin' : 'Chọn tệp tin'}
+                          {file ? 'Thay đổi tệp tin' : 'Chọn tệp tin gốc'}
                         </span>
                       </div>
                       <p className="text-xs leading-5 text-gray-500 mt-1">
@@ -237,6 +269,53 @@ export default function AdminUploadPage() {
                     required
                   />
                 </div>
+
+                <div className="space-y-1 pt-2">
+                  <label className="text-sm font-medium text-gray-700 flex justify-between items-center">
+                    <span>Ảnh xem trước (tối đa 5 ảnh)</span>
+                    <span className="text-xs text-gray-400">{previewFiles.length}/5</span>
+                  </label>
+                  
+                  {previewFiles.length > 0 && (
+                    <div className="flex flex-wrap gap-2 mt-2 mb-3">
+                      {previewFiles.map((pf, idx) => (
+                        <div key={idx} className="relative bg-white border rounded-lg p-2 flex items-center gap-2 pr-8 shadow-sm">
+                          <ImageIcon className="w-4 h-4 text-gray-400" />
+                          <span className="text-xs truncate max-w-[100px]">{pf.name}</span>
+                          <button 
+                            type="button"
+                            onClick={(e) => { e.stopPropagation(); removePreviewFile(idx); }}
+                            className="absolute right-2 text-gray-400 hover:text-red-500"
+                          >
+                            <X className="w-4 h-4" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+
+                  {previewFiles.length < 5 && (
+                    <button
+                      type="button"
+                      onClick={() => previewInputRef.current?.click()}
+                      className="w-full flex items-center justify-center gap-2 rounded-xl border border-dashed border-gray-300 px-4 py-3 text-sm font-medium text-gray-600 hover:bg-gray-50 hover:border-indigo-400 hover:text-indigo-600 transition-all"
+                    >
+                      <ImageIcon className="w-4 h-4" />
+                      Thêm ảnh xem trước (Cho PPTX/DOCX)
+                    </button>
+                  )}
+                  
+                  <input
+                    ref={previewInputRef}
+                    type="file"
+                    multiple
+                    accept="image/*"
+                    className="hidden"
+                    onChange={handlePreviewFileChange}
+                  />
+                  <p className="text-xs text-gray-500 mt-1">Hỗ trợ giả lập lật trang nếu không phải file PDF.</p>
+                </div>
+
               </div>
             </div>
 
@@ -269,8 +348,8 @@ export default function AdminUploadPage() {
                 {loading ? (
                   <>
                     <Loader2 className="w-5 h-5 animate-spin" />
-                    {progressStep === 1 && 'Đang khởi tạo kết nối...'}
-                    {progressStep === 2 && 'Đang tải tệp lên mây...'}
+                    {progressStep === 1 && 'Đang tải tệp gốc lên...'}
+                    {progressStep === 2 && 'Đang tải ảnh xem trước...'}
                     {progressStep === 3 && 'Đang lưu trữ dữ liệu...'}
                   </>
                 ) : (

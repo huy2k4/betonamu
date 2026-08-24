@@ -1,6 +1,7 @@
 'use client';
 
 import React from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, Search, User } from 'lucide-react';
 import styles from './Header.module.css';
@@ -14,14 +15,16 @@ export default function Header() {
         <div className={styles.leftVerticalBar}>
           {/* 1. Logo */}
           <div className={styles.logoContainer}>
-            <Image 
-              src="/assets/betonamu_logo.png" 
-              alt="Betonamu Logo" 
-              width={120} 
-              height={40} 
-              className={styles.logoImage}
-              priority
-            />
+            <Link href="/">
+              <Image 
+                src="/assets/betonamu_logo.png" 
+                alt="Betonamu Logo" 
+                width={120} 
+                height={40} 
+                className={styles.logoImage}
+                priority
+              />
+            </Link>
           </div>
         </div>
         <div className={styles.headerCenter}>

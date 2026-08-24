@@ -1,5 +1,6 @@
 'use client';
 import React, { useState, useRef } from 'react';
+import Link from 'next/link';
 import Image from 'next/image';
 import { Flame } from 'lucide-react';
 import styles from './CategoryModal.module.css';
@@ -32,7 +33,7 @@ export default function CategoryModal() {
               onMouseEnter={() => handleMouseEnter('tai-lieu')}
               onMouseLeave={handleMouseLeave}
             >
-              Tài liệu miễn phí
+              <Link href="/tai-lieu" className={styles.menuItemLink}>Tài liệu miễn phí</Link>
             </li>
             <li 
               className={`${styles.menuItem} ${activeTab === 'tu-vung' ? styles.activeMenuItem : ''}`}

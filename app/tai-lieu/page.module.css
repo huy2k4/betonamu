@@ -1,0 +1,98 @@
+/* ===== /TAI-LIEU PAGE ===== */
+
+.main {
+  min-height: 100vh;
+  background: var(--bg-muted);
+}
+
+/* ===== BREADCRUMB ===== */
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 0;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.breadcrumbLink {
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: color 0.18s;
+}
+
+.breadcrumbLink:hover {
+  color: var(--accent-blue);
+  text-decoration: underline;
+}
+
+.breadcrumbSep {
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.breadcrumbCurrent {
+  font-size: 13px;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* ===== PAGE CONTENT WRAPPER ===== */
+.pageContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+/* ===== PAGE HEADER ===== */
+.pageHeader {
+  background: linear-gradient(135deg, var(--accent-blue) 0%, #3d5a80 100%);
+  border-radius: var(--radius-md);
+  padding: 40px 40px;
+  margin-bottom: 40px;
+  color: #fff;
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+}
+
+.pageHeader::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 240px;
+  height: 240px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+}
+
+.pageHeader::after {
+  content: '';
+  position: absolute;
+  bottom: -60px;
+  right: 80px;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.04);
+  pointer-events: none;
+}
+
+.pageTitle {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.02em;
+}
+
+.pageSubtitle {
+  font-size: 15px;
+  margin: 0;
+  opacity: 0.82;
+  font-weight: 400;
+}

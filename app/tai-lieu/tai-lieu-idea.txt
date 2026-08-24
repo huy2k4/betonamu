@@ -1,0 +1,29 @@
+ở đầu sẽ là component header
+
+
+1- ghi đường dẫn trang chủ/ tài liệu 
+Main-content
+1- title: Mina no nihon go (kí hiệu độ hot)
+- có dãy mục để filter các tài liệu: Ebook / Từ vựng / Audio / Giáo Án
+- hiển thị 5/nhiều component TaiLieuCard: Mina no nihongo N5-1
+ (
+    // TaiLieuCard sẽ có props sau: 
+    // thumbnail: string
+    // title: string
+    // description: string
+    // tags: string[]
+    // file: File
+    TaiLieuCard: div bọc 2 cột, cột 1 là bìa sách,
+    cột 2 là 3 nút download / chi tiết / lưu
+ )
+- trong 
+2- title : Somatome
+- có dãy mục để filter các tài liệu: Ebook / Từ vựng / Audio / Giáo Án
+- hiển thị 5/nhiều component TaiLieuCard Somatome N5-N1
+3- title : Mimikara Oboeru
+- Có dãy mục để filter các tài liệu: Ebook / Từ vựng / Audio / Giáo Án
+- hiển thị 5/nhiều component TaiLieuCard Mimikara Oboeru N5-N1
+4- Đề thi các năm
+- có 1 dãy các năm để chọn : 2022 / 2023 / 2024 / 2025
+- hiển thị 5/nhiều component Đề Thi 
+
