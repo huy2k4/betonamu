@@ -6,6 +6,7 @@ import styles from './page.module.css';
 import { createClient } from '@/utils/supabase/server';
 import { cookies } from 'next/headers';
 import { TaiLieuCardProps } from '@/components/TaiLieuCard/TaiLieuCard';
+import Footer from '@/components/Footer/Footer';
 
 export const metadata = {
   title: 'Tài liệu miễn phí | Betonamu',
@@ -53,7 +54,7 @@ export default async function TaiLieuPage() {
 
     return {
       slug: doc.slug,
-      thumbnail: fixUrl(doc.thumbnail_url || doc.file_url) || '/assets/minano-nihongo.jpg',
+      thumbnail: doc.thumbnail_url ? fixUrl(doc.thumbnail_url) : '/assets/minano-nihongo.jpg',
       title: doc.title,
       description: doc.summary || 'Chưa có mô tả.',
       tags: ['Mới cập nhật'],
@@ -283,6 +284,7 @@ export default async function TaiLieuPage() {
           />
         </div>
       </main>
+      <Footer />
     </>
   );
 }

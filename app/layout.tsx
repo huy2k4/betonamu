@@ -24,7 +24,9 @@ export default function RootLayout({
       className={`${beVietnamPro.variable} h-full antialiased`}
       suppressHydrationWarning
     >
-      <body className="min-h-full flex flex-col" style={{ fontFamily: 'var(--font-be-vietnam-pro), sans-serif' }} suppressHydrationWarning>{children}</body>
+      <body className="min-h-full flex flex-col" style={{ fontFamily: 'var(--font-be-vietnam-pro), sans-serif' }} suppressHydrationWarning>
+        {children}
+      </body>
     </html>
   );
 }

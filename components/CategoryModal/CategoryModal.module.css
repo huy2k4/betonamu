@@ -486,3 +486,24 @@
 .RightSidebar::-webkit-scrollbar-thumb:hover {
   background: var(--text-muted);
 }
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .CategoryModalContainer {
+    flex-direction: column;
+    height: auto;
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  .LeftSidebar, .RightSidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .MainContent {
+    border-right: none;
+  }
+  .Grid3Col {
+    grid-template-columns: 1fr;
+  }
+}

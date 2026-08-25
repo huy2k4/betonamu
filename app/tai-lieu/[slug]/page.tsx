@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Download, Bookmark, Share2, FileText, CheckCircle } from 'lucide-react';
 import Header from '@/components/Header/Header';
+import Footer from '@/components/Footer/Footer';
 import DocumentPreview from '@/components/DocumentPreview/DocumentPreviewWrapper';
 import styles from './page.module.css';
 
@@ -56,7 +57,7 @@ export default async function DocumentDetailPage({ params }: { params: Promise<{
   };
 
   // Prepare fallback images in case it's not a PDF or loading fails
-  const thumbnailUrl = fixUrl(document.thumbnail_url || document.file_url);
+  const thumbnailUrl = document.thumbnail_url ? fixUrl(document.thumbnail_url) : '/assets/minano-nihongo.jpg';
   const images = document.preview_file_url 
     ? document.preview_file_url.split(',').map(fixUrl)
     : [thumbnailUrl, thumbnailUrl, thumbnailUrl, thumbnailUrl, thumbnailUrl];
@@ -165,6 +166,7 @@ export default async function DocumentDetailPage({ params }: { params: Promise<{
 
         </div>
       </main>
+      <Footer />
     </>
   );
 }

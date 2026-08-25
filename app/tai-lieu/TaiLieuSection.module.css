@@ -87,3 +87,17 @@
   font-size: 14px;
   padding: 24px 0;
 }
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .section {
+    margin-bottom: 32px;
+  }
+  .sectionTitle {
+    font-size: 18px;
+  }
+  .cardGrid {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}

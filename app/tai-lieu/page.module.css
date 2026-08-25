@@ -96,3 +96,23 @@
   opacity: 0.82;
   font-weight: 400;
 }
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .pageContent {
+    padding: 0 16px 60px;
+  }
+  .pageHeader {
+    padding: 24px 20px;
+    margin-bottom: 24px;
+  }
+  .pageTitle {
+    font-size: 20px;
+  }
+  .pageSubtitle {
+    font-size: 13px;
+  }
+  .breadcrumb {
+    padding: 10px 16px;
+  }
+}

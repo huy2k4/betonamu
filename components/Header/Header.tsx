@@ -1,13 +1,30 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, Search, User } from 'lucide-react';
 import styles from './Header.module.css';
 import CategoryModal from '../CategoryModal/CategoryModal';
+import RecommendsModal from '../RecommendsModal/RecommendsModal';
 
 export default function Header() {
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [searchValue, setSearchValue] = useState('');
+  const searchContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
+        setIsSearchFocused(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   return (
     <div className={styles.headerContainer}>
       {/* Div dọc rỗng 1 */}
@@ -31,7 +48,7 @@ export default function Header() {
   {/* 2. Danh mục */}
           <div className={styles.categoryContainer}>
             <Menu size={20} />
-            <span>Danh mục</span>
+            <span className={styles.categoryText}>Danh mục</span>
             
             {/* Modal component - Wrapper xử lý gap chống ngắt hover */}
             <div className={styles.categoryModalWrapper}>
@@ -40,17 +57,33 @@ export default function Header() {
           </div>
 
           {/* 3. Searchbar */}
-          <div className={styles.searchContainer}>
+          <div className={styles.searchContainer} ref={searchContainerRef}>
             <div className={styles.searchBar}>
               <input 
                 type="text" 
                 placeholder="Nhập tên khóa học, tài liệu... cần tìm" 
-                className={styles.searchInput} 
+                className={styles.searchInput}
+                onFocus={() => setIsSearchFocused(true)}
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
               />
               <button title="Tìm kiếm" className={styles.searchBtn}>
                 <Search size={16} className={styles.searchIcon} />
               </button>
             </div>
+            
+            {/* Modal Recommends */}
+            <div style={{ position: 'relative', width: '100%' }}>
+              <RecommendsModal 
+                isOpen={isSearchFocused} 
+                searchValue={searchValue}
+                onItemClick={(val) => {
+                  setSearchValue(val);
+                  setIsSearchFocused(false);
+                }}
+              />
+            </div>
+
             {/* Luôn hiển thị từ khóa */}
             <div className={styles.hotKeyword}>
               <a href="#">jlpt n5</a>

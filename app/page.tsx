@@ -1,4 +1,5 @@
 import Header from '../components/Header/Header';
+import Footer from '../components/Footer/Footer';
 import styles from './page.module.css';
 
 export default function HomePage() {
@@ -18,7 +19,9 @@ export default function HomePage() {
       
       <section className={`${styles.bottomSection} ${styles.gridItem}`}>Bottom Section</section>
       
-      <footer className={`${styles.footer} ${styles.gridItem}`}>Footer</footer>
+      <div style={{ gridArea: 'footer' }}>
+        <Footer />
+      </div>
     </div>
   );
 }

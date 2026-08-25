@@ -265,3 +265,30 @@
   color: var(--accent-blue);
   background: var(--accent-blue-light);
 }
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .productContainer {
+    padding: 16px 16px 60px;
+    gap: 24px;
+  }
+  .productInfo {
+    padding: 20px;
+  }
+  .title {
+    font-size: 22px;
+  }
+  .description {
+    font-size: 14px;
+  }
+  .specsList {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+  .secondaryActions {
+    flex-wrap: wrap;
+  }
+  .btnOutline {
+    flex: 1;
+  }
+}

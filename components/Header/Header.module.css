@@ -123,6 +123,7 @@
   align-items: flex-start;
   flex-grow: 1;
   max-width: 480px;
+  position: relative;
 }
 
 .searchBar {
@@ -224,4 +225,75 @@
 .accountName {
   font-size: 13px;
   font-weight: 500;
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .headerContainer {
+    padding: 10px 15px 15px 15px;
+    right: 0;
+    width: 100%;
+  }
+
+  .topRow {
+    flex-wrap: wrap;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .leftVerticalBar {
+    flex: unset;
+  }
+
+  .logoContainer {
+    margin-right: 0;
+  }
+
+  .logoImage {
+    height: 32px;
+  }
+
+  .categoryContainer {
+    min-width: unset;
+    padding: 0 10px;
+    margin: 0 10px 0 0;
+  }
+
+  .categoryText {
+    display: none;
+  }
+
+  .categoryModalWrapper {
+    left: 0;
+  }
+
+  .headerRight {
+    flex: unset;
+    margin-left: auto;
+  }
+
+  .accountName {
+    display: none; /* Chỉ hiện icon */
+  }
+
+  .accountIconWrapper {
+    width: 36px;
+    height: 36px;
+  }
+
+  .headerCenter {
+    transform: none;
+    flex: 1 1 100%;
+    order: 3; /* Đẩy thanh search xuống dưới cùng */
+    margin-top: 10px;
+  }
+
+  .searchContainer {
+    max-width: 100%;
+    width: 100%;
+  }
+
+  .hotKeyword {
+    display: none; /* Ẩn hot keyword trên mobile */
+  }
 }
