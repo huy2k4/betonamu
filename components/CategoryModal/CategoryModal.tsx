@@ -223,7 +223,7 @@ export default function CategoryModal() {
            </div>
 
            <a href="https://www.instagram.com/hanasynex/" target="_blank" rel="noopener noreferrer" className={styles.PromoBanner}>
-              <Image src="/assets/Thao.branch.png" alt="Thảo Banner" fill style={{objectFit: 'contain'}} sizes="256px" />
+              <Image src="/assets/Thao.branch.png?v=2" alt="Thảo Banner" fill style={{objectFit: 'contain'}} sizes="256px" />
            </a>
         </aside>
       </div>
