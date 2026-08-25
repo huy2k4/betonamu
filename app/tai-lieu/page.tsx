@@ -3,6 +3,9 @@ import Link from 'next/link';
 import Header from '@/components/Header/Header';
 import TaiLieuSection from '@/app/tai-lieu/TaiLieuSection';
 import styles from './page.module.css';
+import { createClient } from '@/utils/supabase/server';
+import { cookies } from 'next/headers';
+import { TaiLieuCardProps } from '@/components/TaiLieuCard/TaiLieuCard';
 
 export const metadata = {
   title: 'Tài liệu miễn phí | Betonamu',
@@ -10,7 +13,56 @@ export const metadata = {
     'Kho tài liệu tiếng Nhật miễn phí: Minna no Nihongo, Somatome, Mimikara Oboeru và đề thi JLPT các năm.',
 };
 
-export default function TaiLieuPage() {
+const fixUrl = (url: string) => {
+  if (!url) return url;
+  let newUrl = url.replace('https://https://', 'https://').replace('https://https//', 'https://');
+  newUrl = newUrl.replace(
+    'https://f39ec6a63ea5e47ccdd6c1d892386666.r2.cloudflarestorage.com', 
+    'https://pub-3b036857fdd24996b2f83a969d8b61e8.r2.dev'
+  );
+  return newUrl;
+};
+
+export default async function TaiLieuPage() {
+  const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+
+  // Fetch real documents from BE
+  const { data: documents, error } = await supabase
+    .from('documents')
+    .select('*')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Error fetching documents:', error);
+  }
+
+  // Map BE documents to Card props
+  const realDocuments: TaiLieuCardProps[] = (documents || []).map((doc) => {
+    const fileSizeMb = doc.file_size_bytes 
+      ? (doc.file_size_bytes / (1024 * 1024)).toFixed(2) + ' MB'
+      : 'Không xác định';
+    
+    let fileType: 'PDF' | 'MP3' | 'ZIP' | 'DOCX' = 'PDF';
+    if (doc.file_type) {
+      const type = doc.file_type.toUpperCase();
+      if (['PDF', 'MP3', 'ZIP', 'DOCX'].includes(type)) {
+        fileType = type;
+      }
+    }
+
+    return {
+      slug: doc.slug,
+      thumbnail: fixUrl(doc.thumbnail_url || doc.file_url) || '/assets/minano-nihongo.jpg',
+      title: doc.title,
+      description: doc.summary || 'Chưa có mô tả.',
+      tags: ['Mới cập nhật'],
+      level: 'N5', // Tạm thời hardcode, sau này BE trả về level thì sửa lại
+      fileSize: fileSizeMb,
+      fileType: fileType,
+    };
+  });
+
   return (
     <>
       <Header />
@@ -38,59 +90,19 @@ export default function TaiLieuPage() {
           {/* Sections */}
           <TaiLieuSection
             id="minna-no-nihongo"
-            title="Minna no Nihongo"
+            title="Tài liệu mới cập nhật (Từ Database)"
             hotLevel={3}
-            books={[
+            books={realDocuments.length > 0 ? realDocuments : [
+              // Fallback if DB is empty
               {
                 thumbnail: '/assets/minano-nihongo.jpg',
                 title: 'Minna no Nihongo N5 – Quyển 1',
-                description:
-                  'Giáo trình tiếng Nhật sơ cấp phổ biến nhất. Bao gồm bài học, bài tập và từ vựng cơ bản N5.',
+                description: 'Giáo trình tiếng Nhật sơ cấp phổ biến nhất.',
                 tags: ['N5', 'Ebook', 'Sơ cấp'],
                 level: 'N5',
                 fileSize: '42 MB',
                 fileType: 'PDF',
-              },
-              {
-                thumbnail: '/assets/minano-nihongo.jpg',
-                title: 'Minna no Nihongo N5 – Từ vựng',
-                description:
-                  'Danh sách từ vựng đầy đủ N5 theo từng bài của Minna no Nihongo, kèm phiên âm romaji.',
-                tags: ['N5', 'Từ vựng'],
-                level: 'N5',
-                fileSize: '8 MB',
-                fileType: 'PDF',
-              },
-              {
-                thumbnail: '/assets/minano-nihongo.jpg',
-                title: 'Minna no Nihongo N5 – Audio',
-                description:
-                  'Bộ audio đầy đủ cho giáo trình Minna no Nihongo N5, định dạng MP3 chất lượng cao.',
-                tags: ['N5', 'Audio', 'Nghe'],
-                level: 'N5',
-                fileSize: '230 MB',
-                fileType: 'ZIP',
-              },
-              {
-                thumbnail: '/assets/minano-nihongo.jpg',
-                title: 'Minna no Nihongo N4 – Quyển 2',
-                description:
-                  'Giáo trình Minna no Nihongo tập 2 cho trình độ N4, gồm 25 bài học nâng cao.',
-                tags: ['N4', 'Ebook', 'Sơ cấp'],
-                level: 'N4',
-                fileSize: '48 MB',
-                fileType: 'PDF',
-              },
-              {
-                thumbnail: '/assets/minano-nihongo.jpg',
-                title: 'Minna no Nihongo N4 – Giáo Án',
-                description:
-                  'Giáo án chi tiết cho giáo viên dạy Minna no Nihongo N4, gồm kế hoạch bài dạy từng chương.',
-                tags: ['N4', 'Giáo Án'],
-                level: 'N4',
-                fileSize: '15 MB',
-                fileType: 'DOCX',
-              },
+              }
             ]}
           />
 

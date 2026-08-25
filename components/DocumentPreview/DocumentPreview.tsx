@@ -27,6 +27,8 @@ export default function DocumentPreview({ fileUrl, fileType, fallbackImages }: D
   const totalPages = isPdf ? Math.min(numPages || 5, 5) : fallbackImages.length; // Max 5 pages for preview
   const displayPages = Array.from(new Array(totalPages), (val, index) => index);
 
+  const deltaYAccumulator = useRef(0);
+
   useEffect(() => {
     const container = containerRef.current;
     if (!container || totalPages <= 1) return;
@@ -35,15 +37,25 @@ export default function DocumentPreview({ fileUrl, fileType, fallbackImages }: D
       // Ngăn cuộn trang web khi đang hover trong vùng preview
       e.preventDefault();
 
-      if (isThrottled.current) return;
+      if (isThrottled.current) {
+        deltaYAccumulator.current = 0; // Reset residual scroll events during throttle
+        return;
+      }
 
-      const delta = Math.sign(e.deltaY);
-      if (delta > 0 && currentPage < totalPages - 1) {
+      deltaYAccumulator.current += e.deltaY;
+      const threshold = 60; // Ngưỡng cuộn (pixels) cần thiết để chuyển trang
+
+      if (deltaYAccumulator.current > threshold && currentPage < totalPages - 1) {
         setCurrentPage((prev) => prev + 1);
+        deltaYAccumulator.current = 0;
         throttle();
-      } else if (delta < 0 && currentPage > 0) {
+      } else if (deltaYAccumulator.current < -threshold && currentPage > 0) {
         setCurrentPage((prev) => prev - 1);
+        deltaYAccumulator.current = 0;
         throttle();
+      } else if (Math.abs(deltaYAccumulator.current) > threshold) {
+        // Đã vượt ngưỡng nhưng không thể cuộn thêm (đã tới đầu/cuối trang)
+        deltaYAccumulator.current = 0;
       }
     };
 
@@ -51,7 +63,8 @@ export default function DocumentPreview({ fileUrl, fileType, fallbackImages }: D
       isThrottled.current = true;
       setTimeout(() => {
         isThrottled.current = false;
-      }, 800); // Đợi 800ms để lật chậm và mượt hơn
+        deltaYAccumulator.current = 0; // Đảm bảo clear sau khi hết delay
+      }, 1000); // Tăng delay lên 1000ms để cuộn thong thả hơn
     };
 
     container.addEventListener('wheel', handleWheel, { passive: false });
@@ -91,19 +104,21 @@ export default function DocumentPreview({ fileUrl, fileType, fallbackImages }: D
         <div className={styles.hintOverlay}>
           <span>Cuộn chuột để xem trước ({currentPage + 1}/{totalPages})</span>
         </div>
-        <div 
-          className={styles.pagesSlider} 
-          style={{ transform: `translateY(-${currentPage * 100}%)` }}
-        >
+        <div className={styles.pagesSlider}>
           {isPdf ? (
             <Document 
               file={fileUrl} 
               onLoadSuccess={onDocumentLoadSuccess}
               loading={<div className={styles.loadingState}>Đang tải tài liệu PDF...</div>}
               error={<div className={styles.loadingState}>Không thể tải PDF.</div>}
+              className={styles.pdfDocument}
             >
               {displayPages.map((pageIndex) => (
-                <div key={pageIndex} className={styles.pageItem}>
+                <div 
+                  key={pageIndex} 
+                  className={styles.pageItem}
+                  style={{ transform: `translateY(${(pageIndex - currentPage) * 100}%)` }}
+                >
                   <Page 
                     pageNumber={pageIndex + 1} 
                     width={containerWidth} 
@@ -115,7 +130,11 @@ export default function DocumentPreview({ fileUrl, fileType, fallbackImages }: D
             </Document>
           ) : (
             fallbackImages.map((src, index) => (
-              <div key={index} className={styles.pageItem}>
+              <div 
+                key={index} 
+                className={styles.pageItem}
+                style={{ transform: `translateY(${(index - currentPage) * 100}%)` }}
+              >
                 <Image 
                   src={src} 
                   alt={`Trang ${index + 1}`} 
