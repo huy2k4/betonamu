@@ -23,6 +23,9 @@ export async function GET(
     const xForwardedFor = request.headers.get('x-forwarded-for')
     const clientIp = xForwardedFor ? xForwardedFor.split(',')[0].trim() : '127.0.0.1'
 
+    // Check if user is logged in (optional — non-blocking)
+    const { data: { user } } = await supabase.auth.getUser()
+
     // Call RPC function to increment download_count and insert download log
     const { error: rpcError } = await supabase.rpc('increment_download_count', {
       doc_id: id,
@@ -32,6 +35,17 @@ export async function GET(
     if (rpcError) {
       console.error(`Failed to increment download count via RPC for doc ${id}:`, rpcError)
     }
+
+    // Track download for logged-in users (fire-and-forget, non-blocking)
+    if (user) {
+      supabase
+        .from('user_downloads')
+        .insert({ user_id: user.id, document_id: id })
+        .then(({ error }) => {
+          if (error) console.error('Failed to record user_download:', error)
+        })
+    }
+
 
     // Retrieve document file URL and metadata
     const { data: document, error: dbError } = await supabase

@@ -3,27 +3,60 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Menu, Search, User } from 'lucide-react';
+import { Menu, Search, User, LogOut, Bookmark, UserCircle } from 'lucide-react';
 import styles from './Header.module.css';
 import CategoryModal from '../CategoryModal/CategoryModal';
 import RecommendsModal from '../RecommendsModal/RecommendsModal';
+import { createClient } from '@/utils/supabase/client';
+import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 export default function Header() {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const [isCategoryOpen, setIsCategoryOpen] = useState(false);
+  const [isAccountOpen, setIsAccountOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [user, setUser] = useState<SupabaseUser | null>(null);
   const searchContainerRef = useRef<HTMLDivElement>(null);
+  const categoryContainerRef = useRef<HTMLDivElement>(null);
+  const accountContainerRef = useRef<HTMLDivElement>(null);
+
+  const supabase = createClient();
 
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (searchContainerRef.current && !searchContainerRef.current.contains(event.target as Node)) {
         setIsSearchFocused(false);
       }
+      if (categoryContainerRef.current && !categoryContainerRef.current.contains(event.target as Node)) {
+        setIsCategoryOpen(false);
+      }
+      if (accountContainerRef.current && !accountContainerRef.current.contains(event.target as Node)) {
+        setIsAccountOpen(false);
+      }
     }
     document.addEventListener("mousedown", handleClickOutside);
+    
+    // Fetch initial user
+    supabase.auth.getUser().then(({ data: { user } }) => {
+      setUser(user);
+    });
+
+    // Listen to auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user || null);
+    });
+
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
+      subscription.unsubscribe();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setIsAccountOpen(false);
+  };
 
   return (
     <div className={styles.headerContainer}>
@@ -46,14 +79,26 @@ export default function Header() {
         </div>
         <div className={styles.headerCenter}>
   {/* 2. Danh mục */}
-          <div className={styles.categoryContainer}>
+          <div 
+            ref={categoryContainerRef}
+            className={styles.categoryContainer}
+            onMouseEnter={() => setIsCategoryOpen(true)}
+            onMouseLeave={() => setIsCategoryOpen(false)}
+            onClick={() => {
+              const newState = !isCategoryOpen;
+              setIsCategoryOpen(newState);
+              if (newState) setIsSearchFocused(false);
+            }}
+          >
             <Menu size={20} />
             <span className={styles.categoryText}>Danh mục</span>
             
             {/* Modal component - Wrapper xử lý gap chống ngắt hover */}
-            <div className={styles.categoryModalWrapper}>
-              <CategoryModal />
-            </div>
+            {isCategoryOpen && (
+              <div className={styles.categoryModalWrapper}>
+                <CategoryModal />
+              </div>
+            )}
           </div>
 
           {/* 3. Searchbar */}
@@ -63,7 +108,10 @@ export default function Header() {
                 type="text" 
                 placeholder="Nhập tên khóa học, tài liệu... cần tìm" 
                 className={styles.searchInput}
-                onFocus={() => setIsSearchFocused(true)}
+                onFocus={() => {
+                  setIsSearchFocused(true);
+                  setIsCategoryOpen(false);
+                }}
                 value={searchValue}
                 onChange={(e) => setSearchValue(e.target.value)}
               />
@@ -94,14 +142,63 @@ export default function Header() {
           </div>
         </div>
         <div className={styles.headerRight}>
-          {/* 4. Account (Chia 2 div dọc: icon và tên) */}
-          <div className={styles.accountContainer}>
-            <div className={styles.accountIconWrapper}>
-              <User size={20} color="white" />
-          </div>
-            <div className={styles.accountName}>
-              Admin
-            </div>
+          {/* 4. Account */}
+          <div 
+            className={styles.accountContainer} 
+            ref={accountContainerRef}
+            onClick={() => {
+              if (user) {
+                setIsAccountOpen(!isAccountOpen);
+                setIsCategoryOpen(false);
+              }
+            }}
+          >
+            {user ? (
+              <>
+                <div className={styles.accountIconWrapper}>
+                  {(user.user_metadata?.avatar_url || user.user_metadata?.picture) ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img 
+                      src={user.user_metadata.avatar_url || user.user_metadata.picture} 
+                      alt="Avatar" 
+                      className={styles.userAvatar} 
+                      referrerPolicy="no-referrer"
+                    />
+                  ) : (
+                    <User size={20} color="white" />
+                  )}
+                </div>
+                <div className={styles.accountName}>
+                  {user.user_metadata?.full_name || 'Tài khoản'}
+                </div>
+                
+                {/* Account Dropdown Modal */}
+                {isAccountOpen && (
+                  <div className={styles.accountModalWrapper}>
+                    <div className={styles.accountModal}>
+                      <Link href="/account" className={styles.accountModalItem} onClick={() => setIsAccountOpen(false)}>
+                        <UserCircle size={18} /> Hồ sơ cá nhân
+                      </Link>
+                      <Link href="/account/balo" className={styles.accountModalItem} onClick={() => setIsAccountOpen(false)}>
+                        <Bookmark size={18} /> Balo của tôi
+                      </Link>
+                      <button className={styles.accountModalItem} onClick={handleLogout}>
+                        <LogOut size={18} /> Đăng xuất
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </>
+            ) : (
+              <Link href="/login" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', color: 'inherit' }}>
+                <div className={styles.accountIconWrapper}>
+                  <User size={20} color="white" />
+                </div>
+                <div className={styles.accountName}>
+                  Đăng nhập
+                </div>
+              </Link>
+            )}
           </div>
         </div>
       </div>

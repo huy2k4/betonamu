@@ -195,12 +195,14 @@
     font-size: 13px;
     white-space: normal; /* Cho phép rớt dòng ở tiêu đề dài */
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     display: -webkit-box;
     -webkit-box-orient: vertical;
   }
   .description {
     font-size: 11px;
     -webkit-line-clamp: 1; /* Ẩn bớt mô tả trên mobile */
+    line-clamp: 1;
   }
   .btn {
     padding: 4px 8px;

@@ -9,7 +9,6 @@ export async function POST(request: Request) {
   try {
     // 1. Authenticate user (or bypass in dev mode if explicitly configured)
     const bypassAuth = process.env.BYPASS_AUTH_FOR_DEV === 'true' && process.env.NODE_ENV === 'development'
-    let user = null
 
     if (!bypassAuth) {
       const cookieStore = await cookies()
@@ -21,7 +20,6 @@ export async function POST(request: Request) {
           { status: 401 }
         )
       }
-      user = authUser
     }
 
     // 2. Validate request body
