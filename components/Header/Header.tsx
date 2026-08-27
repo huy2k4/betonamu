@@ -7,6 +7,7 @@ import { Menu, Search, User, LogOut, Bookmark, UserCircle } from 'lucide-react';
 import styles from './Header.module.css';
 import CategoryModal from '../CategoryModal/CategoryModal';
 import RecommendsModal from '../RecommendsModal/RecommendsModal';
+import LoginModal from '../LoginModal/LoginModal';
 import { createClient } from '@/utils/supabase/client';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 
@@ -14,6 +15,7 @@ export default function Header() {
   const [isSearchFocused, setIsSearchFocused] = useState(false);
   const [isCategoryOpen, setIsCategoryOpen] = useState(false);
   const [isAccountOpen, setIsAccountOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
   const [searchValue, setSearchValue] = useState('');
   const [user, setUser] = useState<SupabaseUser | null>(null);
   const searchContainerRef = useRef<HTMLDivElement>(null);
@@ -190,18 +192,26 @@ export default function Header() {
                 )}
               </>
             ) : (
-              <Link href="/login" style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', color: 'inherit' }}>
+              <button 
+                onClick={() => setIsLoginModalOpen(true)}
+                style={{ background: 'none', border: 'none', cursor: 'pointer', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px', color: 'inherit', padding: 0 }}
+              >
                 <div className={styles.accountIconWrapper}>
                   <User size={20} color="white" />
                 </div>
                 <div className={styles.accountName}>
                   Đăng nhập
                 </div>
-              </Link>
+              </button>
             )}
           </div>
         </div>
       </div>
+
+      <LoginModal 
+        isOpen={isLoginModalOpen} 
+        onClose={() => setIsLoginModalOpen(false)} 
+      />
 
       {/* Div dọc rỗng 2 */}
       <div className={styles.bottomRow}>

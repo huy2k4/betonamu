@@ -3,9 +3,20 @@ import { createClient } from '@/utils/supabase/server'
 import { cookies } from 'next/headers'
 
 export async function GET(request: Request) {
-  const { searchParams, origin } = new URL(request.url)
+  const url = new URL(request.url)
+  const searchParams = url.searchParams
   const code = searchParams.get('code')
   const next = searchParams.get('next') ?? '/'
+
+  // Khi deploy lên Vercel/VPS, request.url có thể trả về localhost hoặc server nội bộ
+  // Ta cần ưu tiên lấy domain thực từ header (do Nginx/Vercel proxy gửi tới)
+  const forwardedHost = request.headers.get('x-forwarded-host')
+  const forwardedProto = request.headers.get('x-forwarded-proto') ?? 'https'
+  
+  let origin = url.origin
+  if (forwardedHost) {
+    origin = `${forwardedProto}://${forwardedHost}`
+  }
 
   if (code) {
     const cookieStore = await cookies()
