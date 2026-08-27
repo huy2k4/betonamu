@@ -21,6 +21,7 @@ export default function Header() {
   const searchContainerRef = useRef<HTMLDivElement>(null);
   const categoryContainerRef = useRef<HTMLDivElement>(null);
   const accountContainerRef = useRef<HTMLDivElement>(null);
+  const searchInputRef = useRef<HTMLInputElement>(null);
 
   const supabase = createClient();
 
@@ -84,7 +85,11 @@ export default function Header() {
           <div 
             ref={categoryContainerRef}
             className={styles.categoryContainer}
-            onMouseEnter={() => setIsCategoryOpen(true)}
+            onMouseEnter={() => {
+              setIsCategoryOpen(true);
+              setIsSearchFocused(false);
+              searchInputRef.current?.blur();
+            }}
             onMouseLeave={() => setIsCategoryOpen(false)}
             onClick={() => {
               const newState = !isCategoryOpen;
@@ -107,6 +112,7 @@ export default function Header() {
           <div className={styles.searchContainer} ref={searchContainerRef}>
             <div className={styles.searchBar}>
               <input 
+                ref={searchInputRef}
                 type="text" 
                 placeholder="Nhập tên khóa học, tài liệu... cần tìm" 
                 className={styles.searchInput}

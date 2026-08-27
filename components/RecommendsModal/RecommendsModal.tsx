@@ -31,6 +31,12 @@ const MOCK_ALL_DOCS = [
   { title: 'Từ vựng chuyên ngành IT', category: 'Từ vựng' },
 ];
 
+const ALL_KEYWORDS = [
+  'minna no nihongo', 'đề thi n5', 'từ vựng n4', 'ngữ pháp n3',
+  'giao tiếp cơ bản', 'từ vựng it', 'jlpt n5', 'jlpt n4',
+  'luyện nghe n3', 'kanji cơ bản', 'sơ cấp', 'trung cấp'
+];
+
 const generateSlug = (str: string) => {
   return str
     .toLowerCase()
@@ -55,6 +61,11 @@ export default function RecommendsModal({ isOpen, searchValue, onItemClick }: Re
   const searchResults = MOCK_ALL_DOCS.filter(doc => {
     const docSlug = generateSlug(doc.title);
     return docSlug.includes(searchSlug);
+  });
+  
+  const keywordResults = ALL_KEYWORDS.filter(k => {
+    const kSlug = generateSlug(k);
+    return kSlug.includes(searchSlug);
   });
 
   return (
@@ -126,26 +137,52 @@ export default function RecommendsModal({ isOpen, searchValue, onItemClick }: Re
       ) : (
         <>
           {/* State 2: Searching with value */}
-          <div className={styles.resultList}>
-            {searchResults.length > 0 ? (
-              searchResults.map((result, index) => (
-                <div 
-                  key={index} 
-                  className={styles.resultItem}
-                  onClick={() => onItemClick(result.title)}
-                >
-                  <Search size={18} color="#888" />
-                  <div className={styles.resultContent}>
-                    <span className={styles.resultTitle}>{result.title}</span>
-                    <span className={styles.resultCategory}>{result.category}</span>
+          
+          {/* Section 1: Từ khoá gợi ý (No Header) */}
+          {keywordResults.length > 0 && (
+            <div className={styles.section} style={{ marginTop: '0.5rem' }}>
+              <div className={styles.trendList}>
+                {keywordResults.slice(0, 3).map((keyword, index) => (
+                  <div 
+                    key={index} 
+                    className={styles.trendItem}
+                    onClick={() => onItemClick(keyword)}
+                  >
+                    <Search size={14} />
+                    {keyword}
                   </div>
-                </div>
-              ))
-            ) : (
-              <div className={styles.noResult}>
-                Không tìm thấy kết quả nào cho &quot;{searchValue}&quot;
+                ))}
               </div>
-            )}
+            </div>
+          )}
+
+          {/* Section 2: Tài liệu gợi ý */}
+          <div className={styles.section} style={{ marginTop: '1rem' }}>
+            <div className={styles.sectionTitle}>
+              <Book size={18} color="#ff5722" />
+              Tài liệu gợi ý
+            </div>
+            <div className={styles.resultList}>
+              {searchResults.length > 0 ? (
+                searchResults.slice(0, 4).map((result, index) => (
+                  <div 
+                    key={index} 
+                    className={styles.resultItem}
+                    onClick={() => onItemClick(result.title)}
+                  >
+                    <FileText size={18} color="#888" />
+                    <div className={styles.resultContent}>
+                      <span className={styles.resultTitle}>{result.title}</span>
+                      <span className={styles.resultCategory}>{result.category}</span>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className={styles.noResult}>
+                  Không có tài liệu phù hợp
+                </div>
+              )}
+            </div>
           </div>
         </>
       )}
