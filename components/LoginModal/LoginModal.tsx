@@ -53,8 +53,8 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
     if (trimmed.includes('@')) {
       return trimmed.toLowerCase();
     }
-    // Quy ước username -> username@betonamu.user
-    return `${trimmed.toLowerCase()}@betonamu.user`;
+    // Nếu nhập tên đăng nhập không có @ -> tự động gắn tên miền hợp lệ để Supabase Auth chấp nhận
+    return `${trimmed.toLowerCase()}@gmail.com`;
   };
 
   // Submit Password-based Login / Register
