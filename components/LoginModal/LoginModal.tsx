@@ -57,6 +57,29 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
     return `${trimmed.toLowerCase()}@gmail.com`;
   };
 
+  const translateAuthError = (message: string): string => {
+    const msg = message.toLowerCase();
+    if (msg.includes('rate limit exceeded') || msg.includes('email rate limit')) {
+      return 'Hệ thống đang tạm khóa do có quá nhiều yêu cầu đăng ký/xác thực. Vui lòng thử lại sau vài phút!';
+    }
+    if (msg.includes('invalid login credentials')) {
+      return 'Tên đăng nhập hoặc mật khẩu không chính xác.';
+    }
+    if (msg.includes('user already registered') || msg.includes('already exists') || msg.includes('already registered')) {
+      return 'Tài khoản này đã tồn tại trên hệ thống. Vui lòng đăng nhập!';
+    }
+    if (msg.includes('password should be at least')) {
+      return 'Mật khẩu phải chứa ít nhất 6 ký tự.';
+    }
+    if (msg.includes('invalid') && msg.includes('email')) {
+      return 'Địa chỉ Email hoặc tên đăng nhập không hợp lệ.';
+    }
+    if (msg.includes('too many requests')) {
+      return 'Thao tác quá nhanh. Vui lòng đợi một chút rồi thử lại.';
+    }
+    return message || 'Có lỗi xảy ra, vui lòng thử lại sau.';
+  };
+
   // Submit Password-based Login / Register
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -101,11 +124,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
         });
 
         if (error) {
-          if (error.message.includes('Invalid login credentials')) {
-            setErrorMsg('Tên đăng nhập hoặc mật khẩu không chính xác');
-          } else {
-            setErrorMsg(error.message);
-          }
+          setErrorMsg(translateAuthError(error.message));
           return;
         }
 
@@ -127,12 +146,12 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
         });
 
         if (error) {
-          setErrorMsg(error.message);
+          setErrorMsg(translateAuthError(error.message));
           return;
         }
 
         if (data?.user?.identities?.length === 0) {
-          setErrorMsg('Tài khoản này đã tồn tại');
+          setErrorMsg('Tài khoản này đã tồn tại. Vui lòng đăng nhập!');
           return;
         }
 
@@ -156,7 +175,7 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
       }
     } catch (err: unknown) {
       const errorObj = err as Error;
-      setErrorMsg(errorObj?.message || 'Có lỗi xảy ra, vui lòng thử lại');
+      setErrorMsg(translateAuthError(errorObj?.message || ''));
     } finally {
       setLoading(null);
     }
