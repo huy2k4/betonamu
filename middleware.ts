@@ -52,10 +52,12 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  // Bảo vệ khu vực admin — chỉ cho phép email @betonamu.admin
+  // Bảo vệ khu vực admin — cho phép nếu có email @betonamu.admin HOẶC cookie admin_session=dev (local testing)
   if (isAdminRoute) {
-    const isAdmin = user?.email?.endsWith('@betonamu.admin') ?? false;
-    if (!isAdmin) {
+    const isSupabaseAdmin = user?.email?.endsWith('@betonamu.admin') ?? false;
+    const isDevAdminSession = request.cookies.get('admin_session')?.value === 'dev';
+
+    if (!isSupabaseAdmin && !isDevAdminSession) {
       const url = request.nextUrl.clone();
       url.pathname = '/admin/login';
       return NextResponse.redirect(url);
