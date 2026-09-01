@@ -3,7 +3,7 @@
 import React, { useState, useRef } from 'react'
 import { UploadCloud, CheckCircle, AlertCircle, FileText, Image as ImageIcon, Link2, Type, Loader2, X } from 'lucide-react'
 
-export function AdminUploadContent() {
+export default function AdminUploadPage() {
   const [title, setTitle] = useState('')
   const [slug, setSlug] = useState('')
   const [summary, setSummary] = useState('')

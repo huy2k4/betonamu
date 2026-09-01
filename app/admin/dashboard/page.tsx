@@ -103,8 +103,8 @@ function StatusIcon({ status }: { status: string }) {
   return <XCircle size={14} className={styles.statusBad} />;
 }
 
-// ===== COMPONENT (không phải page — được import bởi (protected)/dashboard/page.tsx) =====
-export function AdminDashboardContent() {
+// ===== PAGE =====
+export default function AdminDashboardPage() {
   const now = new Date();
   const dateStr = now.toLocaleDateString('vi-VN', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 

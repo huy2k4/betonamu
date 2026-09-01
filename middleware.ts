@@ -4,8 +4,12 @@ import { type NextRequest, NextResponse } from 'next/server'
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
+  // Forward pathname vào request headers — cho phép Server Components (layout) đọc được
+  const requestHeaders = new Headers(request.headers);
+  requestHeaders.set('x-pathname', pathname);
+
   // Build a response we can mutate for cookie refreshes
-  let response = NextResponse.next({ request: { headers: request.headers } })
+  let response = NextResponse.next({ request: { headers: requestHeaders } })
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,

@@ -1,6 +1,4 @@
-'use client';
-import { AdminUploadContent } from '../upload/page';
-
-export default function ProtectedUploadPage() {
-  return <AdminUploadContent />;
-}
+/**
+ * KHÔNG SỬ DỤNG — file này không phải là page.
+ * Auth guard đã được chuyển vào app/admin/layout.tsx (dùng x-pathname header).
+ */
