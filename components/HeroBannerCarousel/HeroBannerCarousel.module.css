@@ -1,0 +1,312 @@
+/* ===== HERO BANNER CAROUSEL ===== */
+
+/* Tỷ lệ A/R cố định — responsive tự nhiên */
+.carouselWrapper {
+  position: relative;
+  width: 100%;
+  /* 280px : ~680px desktop = ~41% → dùng aspect-ratio để giữ tỷ lệ trên mọi màn */
+  aspect-ratio: 16 / 6.5;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  background: #0f172a;
+  flex-shrink: 0;
+  /* Ngăn scroll ngoài khi swipe touch */
+  touch-action: pan-y;
+}
+
+/* ===== SLIDES ===== */
+.track {
+  position: absolute;
+  inset: 0;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  /* Cross-fade transition */
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+
+.slideActive {
+  opacity: 1;
+  pointer-events: auto;
+  z-index: 2;
+}
+
+/* ===== KEN BURNS ZOOM EFFECT ===== */
+.kenBurns {
+  position: absolute;
+  inset: -4%; /* Slightly oversized to hide zoom overflow */
+  transform: scale(1);
+  transition: transform 8s linear;
+  will-change: transform;
+}
+
+.kenBurnsActive {
+  transform: scale(1.06);
+}
+
+/* ===== GRADIENT OVERLAY ===== */
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(10, 20, 40, 0.85) 0%,
+    rgba(10, 20, 40, 0.55) 40%,
+    rgba(10, 20, 40, 0.1) 70%,
+    transparent 100%
+  );
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* ===== BADGE ===== */
+.badge {
+  position: absolute;
+  top: 18px;
+  left: 20px;
+  z-index: 10;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: var(--hot-color, #ef4444);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ===== SLIDE CONTENT ===== */
+.content {
+  position: absolute;
+  bottom: 32px;
+  left: 28px;
+  z-index: 10;
+  max-width: min(68%, 520px);
+  animation: slideUp 0.55s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.title {
+  font-size: clamp(1.3rem, 3.5vw, 2rem);
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0 0 8px 0;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  text-shadow: 0 2px 16px rgba(0, 0, 0, 0.5);
+}
+
+.subtitle {
+  font-size: clamp(0.8rem, 1.5vw, 0.9rem);
+  color: rgba(255, 255, 255, 0.85);
+  margin: 0 0 18px 0;
+  font-weight: 400;
+  line-height: 1.55;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255, 255, 255, 0.95);
+  color: var(--accent-blue, #2563eb);
+  font-size: 13px;
+  font-weight: 700;
+  padding: 9px 20px;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(4px);
+}
+
+.cta:hover {
+  background: #ffffff;
+  transform: translateX(3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
+}
+
+/* ===== NAV BUTTONS ===== */
+.navBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 20;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(8px);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, transform 0.2s;
+  opacity: 0;
+}
+
+.carouselWrapper:hover .navBtn {
+  opacity: 1;
+}
+
+.navBtn:hover {
+  background: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.navPrev {
+  left: 14px;
+}
+
+.navPrev:hover {
+  transform: translateY(-50%) translateX(-2px);
+}
+
+.navNext {
+  right: 14px;
+}
+
+.navNext:hover {
+  transform: translateY(-50%) translateX(2px);
+}
+
+/* ===== PROGRESS INDICATORS ===== */
+.indicators {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  z-index: 20;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.indicator {
+  position: relative;
+  width: 32px;
+  height: 3px;
+  border-radius: 99px;
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  overflow: hidden;
+  transition: width 0.25s ease, background 0.2s;
+}
+
+.indicator:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+.indicatorActive {
+  width: 52px; /* Wider active indicator */
+}
+
+/* Progress fill bar — animation driven by CSS var --duration */
+.indicatorFill {
+  position: absolute;
+  inset: 0;
+  background: #ffffff;
+  border-radius: 99px;
+  transform-origin: left;
+  transform: scaleX(0);
+}
+
+/* Active + not paused → run progress animation */
+.indicatorActive .indicatorFill {
+  animation: progressFill var(--duration, 5000ms) linear forwards;
+}
+
+@keyframes progressFill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .carouselWrapper {
+    aspect-ratio: 16 / 9; /* Wider ratio for mobile — more room */
+    border-radius: 12px;
+  }
+
+  .content {
+    bottom: 20px;
+    left: 18px;
+    max-width: 85%;
+  }
+
+  .title {
+    font-size: 1.15rem;
+    margin-bottom: 5px;
+  }
+
+  .subtitle {
+    font-size: 0.78rem;
+    margin-bottom: 12px;
+    /* Limit to 2 lines on mobile */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    line-clamp: 2;
+    overflow: hidden;
+  }
+
+  .cta {
+    font-size: 12px;
+    padding: 7px 15px;
+  }
+
+  /* Nav buttons always visible on mobile */
+  .navBtn {
+    opacity: 0.7;
+    width: 34px;
+    height: 34px;
+  }
+
+  .navPrev {
+    left: 8px;
+  }
+
+  .navNext {
+    right: 8px;
+  }
+
+  .indicators {
+    bottom: 12px;
+    right: 14px;
+    gap: 6px;
+  }
+
+  .indicator {
+    width: 24px;
+    height: 2.5px;
+  }
+
+  .indicatorActive {
+    width: 40px;
+  }
+}

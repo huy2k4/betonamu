@@ -1,17 +1,52 @@
-import Image from 'next/image';
 import Link from 'next/link';
 import { Suspense } from 'react';
-import { ArrowRight, Flame } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Header from '@/components/Header/Header';
 import Footer from '@/components/Footer/Footer';
 import LeftSidebar from '@/components/LeftSidebar/LeftSidebar';
 import RightSidebar from '@/components/RightSidebar/RightSidebar';
 import TaiLieuCard from '@/components/TaiLieuCard/TaiLieuCard';
+import HeroBannerCarousel, { BannerSlide } from '@/components/HeroBannerCarousel/HeroBannerCarousel';
 import { createClient } from '@/utils/supabase/server';
 import { cookies } from 'next/headers';
 import { fixThumbnailUrl } from '@/utils/url';
 import { TaiLieuCardProps } from '@/components/TaiLieuCard/TaiLieuCard';
 import styles from './page.module.css';
+
+// ===== DỮ LIỆU BANNER (thêm slide mới vào đây) =====
+const HERO_BANNERS: BannerSlide[] = [
+  {
+    id: 'minna',
+    image: '/assets/Mina-no-nihongo-Banner.jpg',
+    alt: 'Minna no Nihongo Banner',
+    badge: 'Phổ biến nhất',
+    badgeHot: true,
+    title: 'Minna no Nihongo',
+    subtitle: 'Bộ giáo trình tiếng Nhật sơ cấp phổ biến nhất — từ N5 đến N3',
+    ctaLabel: 'Xem tài liệu',
+    ctaHref: '/tai-lieu#minna-no-nihongo',
+  },
+  {
+    id: 'somatome',
+    image: '/assets/somatome.jpeg',
+    alt: 'Somatome Banner',
+    badge: 'Luyện thi JLPT',
+    title: 'Somatome N3 → N1',
+    subtitle: 'Bộ sách luyện Hán tự, Từ vựng, Ngữ pháp theo từng cấp độ JLPT chuyên sâu.',
+    ctaLabel: 'Khám phá ngay',
+    ctaHref: '/tai-lieu?level=N3',
+  },
+  {
+    id: 'mimikara',
+    image: '/assets/mimikara-oboeru.webp',
+    alt: 'Mimikara Oboeru Banner',
+    badge: 'Luyện nghe',
+    title: 'Mimikara Oboeru',
+    subtitle: 'Học từ vựng N4–N2 qua âm thanh tự nhiên — ghi nhớ nhanh hơn, lâu hơn.',
+    ctaLabel: 'Nghe thử ngay',
+    ctaHref: '/tai-lieu?type=audio',
+  },
+];
 
 export const metadata = {
   title: 'Betonamu — Kho tài liệu tiếng Nhật miễn phí',
@@ -180,29 +215,9 @@ export default async function HomePage({ searchParams }: HomePageProps) {
       {/* MAIN AREA */}
       <main className={styles.mainArea}>
 
-        {/* HERO BANNER — chỉ hiện khi intent = explore */}
+        {/* HERO BANNER CAROUSEL — chỉ hiện khi intent = explore */}
         {config.banner && (
-          <section className={styles.banner} aria-label="Banner Minna no Nihongo">
-            <Image
-              src="/assets/Mina-no-nihongo-Banner.jpg"
-              alt="Minna no Nihongo Banner"
-              fill
-              style={{ objectFit: 'cover' }}
-              priority
-            />
-            <span className={styles.bannerBadge}>
-              <Flame size={12} /> Phổ biến nhất
-            </span>
-            <div className={styles.bannerContent}>
-              <h1 className={styles.bannerTitle}>Minna no Nihongo</h1>
-              <p className={styles.bannerSubtitle}>
-                Bộ giáo trình tiếng Nhật sơ cấp phổ biến nhất — từ N5 đến N3
-              </p>
-              <Link href="/tai-lieu#minna-no-nihongo" className={styles.bannerCta}>
-                Xem tài liệu <ArrowRight size={14} />
-              </Link>
-            </div>
-          </section>
+          <HeroBannerCarousel slides={HERO_BANNERS} autoPlayInterval={5000} />
         )}
 
         {/* INTENT SECTION HEADER — hiện cho tất cả intent */}
