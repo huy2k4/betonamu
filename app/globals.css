@@ -50,3 +50,16 @@ body {
   color: var(--text-primary);
   font-family: var(--font-be-vietnam-pro), Arial, sans-serif;
 }
+
+/* Ngăn iOS/Trình duyệt di động tự động phóng to (zoom in) khi click vào ô nhập liệu (Input) */
+@media screen and (max-width: 768px) {
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}
