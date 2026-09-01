@@ -183,12 +183,35 @@ export default function CategoryModal() {
           )}
 
           {activeTab === 'tu-vung' && (
-            <div className={styles.EmptyState}>
-              <div>
-                <h3 className={styles.EmptyTitle}>Học từ vựng</h3>
-                <p className={styles.EmptyText}>Nội dung đang được cập nhật...</p>
+            <>
+              <h2 className={styles.MainTitle}>Học từ vựng</h2>
+              <div className={styles.VocabGrid}>
+                <Link href="/tu-vung/kanji" className={styles.VocabItem}>
+                  <div className={styles.VocabIconBg}>🧠</div>
+                  <div className={styles.VocabIcon}>🧠</div>
+                  <div className={styles.VocabTitle}>Kanji thông minh</div>
+                  <div className={styles.VocabSubtitle}>Học Hán tự theo ngữ cảnh</div>
+                </Link>
+                <Link href="/tu-vung/flashcard" className={styles.VocabItem}>
+                  <div className={styles.VocabIconBg}>📇</div>
+                  <div className={styles.VocabIcon}>📇</div>
+                  <div className={styles.VocabTitle}>Flashcard</div>
+                  <div className={styles.VocabSubtitle}>Ghi nhớ từ vựng hiệu quả</div>
+                </Link>
+                <Link href="/tu-vung/kiem-tra" className={styles.VocabItem}>
+                  <div className={styles.VocabIconBg}>📝</div>
+                  <div className={styles.VocabIcon}>📝</div>
+                  <div className={styles.VocabTitle}>Kiểm tra</div>
+                  <div className={styles.VocabSubtitle}>Luyện đề & trắc nghiệm</div>
+                </Link>
+                <Link href="/tu-vung/thong-ke" className={styles.VocabItem}>
+                  <div className={styles.VocabIconBg}>📈</div>
+                  <div className={styles.VocabIcon}>📈</div>
+                  <div className={styles.VocabTitle}>Thống kê / Lộ trình</div>
+                  <div className={styles.VocabSubtitle}>Theo dõi tiến độ học tập</div>
+                </Link>
               </div>
-            </div>
+            </>
           )}
 
           {activeTab === 'kaiwa' && (
