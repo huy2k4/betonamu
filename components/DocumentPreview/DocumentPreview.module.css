@@ -19,7 +19,7 @@
   overflow: hidden;
   box-shadow: var(--shadow-sm, 0 1px 3px rgba(0,0,0,0.1));
   cursor: ns-resize;
-  touch-action: pan-y; /* Cho phép cuộn trang nhưng bắt được touch gesture nhạy */
+  touch-action: none; /* Khóa cuộn trang web bên ngoài khi thao tác vuốt trong khung preview */
   outline: none;
 }
 

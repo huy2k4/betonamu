@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
-import { ChevronLeft, ChevronRight, ChevronUp, ChevronDown } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import styles from './DocumentPreview.module.css';
 
 import { Document, Page, pdfjs } from 'react-pdf';
@@ -78,61 +78,74 @@ export default function DocumentPreview({ fileUrl, fileType, fallbackImages }: D
       }
     };
 
+    // Native Touch Handlers to strictly prevent outer page scrolling
+    const handleTouchStart = (e: TouchEvent) => {
+      if (totalPages <= 1) return;
+      const touch = e.touches[0];
+      touchStartRef.current = {
+        x: touch.clientX,
+        y: touch.clientY,
+        time: Date.now(),
+      };
+    };
+
+    const handleTouchMove = (e: TouchEvent) => {
+      // Ngăn toàn bộ hiện tượng cuộn trang bên ngoài khi đang vuốt trong preview
+      if (e.cancelable) {
+        e.preventDefault();
+      }
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      if (!touchStartRef.current || totalPages <= 1 || isThrottled.current) return;
+      
+      const touch = e.changedTouches[0];
+      const deltaX = touchStartRef.current.x - touch.clientX;
+      const deltaY = touchStartRef.current.y - touch.clientY;
+      const deltaTime = Date.now() - touchStartRef.current.time;
+      
+      touchStartRef.current = null;
+
+      // Fast swipe or distance > 30px threshold
+      const minDistance = 30;
+      const maxTime = 600;
+
+      if (deltaTime > maxTime) return;
+
+      // Determine primary gesture direction
+      if (Math.abs(deltaY) > Math.abs(deltaX)) {
+        // Vertical swipe: Vuốt lên = trang tiếp theo, Vuốt xuống = trang trước
+        if (deltaY > minDistance && currentPage < totalPages - 1) {
+          goToNextPage();
+          throttle();
+        } else if (deltaY < -minDistance && currentPage > 0) {
+          goToPrevPage();
+          throttle();
+        }
+      } else {
+        // Horizontal swipe: Vuốt sang trái = trang tiếp theo, Vuốt sang phải = trang trước
+        if (deltaX > minDistance && currentPage < totalPages - 1) {
+          goToNextPage();
+          throttle();
+        } else if (deltaX < -minDistance && currentPage > 0) {
+          goToPrevPage();
+          throttle();
+        }
+      }
+    };
+
     container.addEventListener('wheel', handleWheel, { passive: false });
+    container.addEventListener('touchstart', handleTouchStart, { passive: true });
+    container.addEventListener('touchmove', handleTouchMove, { passive: false });
+    container.addEventListener('touchend', handleTouchEnd, { passive: true });
 
     return () => {
       container.removeEventListener('wheel', handleWheel);
+      container.removeEventListener('touchstart', handleTouchStart);
+      container.removeEventListener('touchmove', handleTouchMove);
+      container.removeEventListener('touchend', handleTouchEnd);
     };
   }, [currentPage, totalPages, goToNextPage, goToPrevPage, throttle]);
-
-  // Touch Swipe Handlers (Mobile)
-  const handleTouchStart = (e: React.TouchEvent) => {
-    if (totalPages <= 1) return;
-    const touch = e.touches[0];
-    touchStartRef.current = {
-      x: touch.clientX,
-      y: touch.clientY,
-      time: Date.now(),
-    };
-  };
-
-  const handleTouchEnd = (e: React.TouchEvent) => {
-    if (!touchStartRef.current || totalPages <= 1 || isThrottled.current) return;
-    
-    const touch = e.changedTouches[0];
-    const deltaX = touchStartRef.current.x - touch.clientX;
-    const deltaY = touchStartRef.current.y - touch.clientY;
-    const deltaTime = Date.now() - touchStartRef.current.time;
-    
-    touchStartRef.current = null;
-
-    // Fast swipe or distance > 35px threshold
-    const minDistance = 35;
-    const maxTime = 600;
-
-    if (deltaTime > maxTime) return;
-
-    // Determine primary gesture direction
-    if (Math.abs(deltaY) > Math.abs(deltaX)) {
-      // Vertical swipe: Vuốt lên = trang tiếp theo, Vuốt xuống = trang trước
-      if (deltaY > minDistance && currentPage < totalPages - 1) {
-        goToNextPage();
-        throttle();
-      } else if (deltaY < -minDistance && currentPage > 0) {
-        goToPrevPage();
-        throttle();
-      }
-    } else {
-      // Horizontal swipe: Vuốt sang trái = trang tiếp theo, Vuốt sang phải = trang trước
-      if (deltaX > minDistance && currentPage < totalPages - 1) {
-        goToNextPage();
-        throttle();
-      } else if (deltaX < -minDistance && currentPage > 0) {
-        goToPrevPage();
-        throttle();
-      }
-    }
-  };
 
   // Keyboard navigation (Arrow keys)
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -174,8 +187,6 @@ export default function DocumentPreview({ fileUrl, fileType, fallbackImages }: D
       <div 
         className={styles.previewContainer} 
         ref={containerRef}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
         tabIndex={0}
         onKeyDown={handleKeyDown}
         role="region"
