@@ -3,46 +3,118 @@
 .previewWrapper {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   align-items: center;
   width: 100%;
+  user-select: none;
 }
 
 .previewContainer {
   position: relative;
   width: 100%;
-  aspect-ratio: 1 / 1.414; /* Tỷ lệ giấy A4 */
-  background-color: var(--bg-muted);
-  border: 1px solid var(--border-color);
-  border-radius: var(--radius-md);
+  aspect-ratio: 1 / 1.414; /* Tỷ lệ chuẩn giấy A4 */
+  background-color: var(--bg-muted, #f1f5f9);
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: var(--radius-md, 12px);
   overflow: hidden;
-  box-shadow: var(--shadow-sm);
-  cursor: ns-resize; /* Gợi ý cho người dùng là có thể cuộn dọc */
+  box-shadow: var(--shadow-sm, 0 1px 3px rgba(0,0,0,0.1));
+  cursor: ns-resize;
+  touch-action: pan-y; /* Cho phép cuộn trang nhưng bắt được touch gesture nhạy */
+  outline: none;
 }
 
-/* Hiệu ứng mờ khi hover để nhắc người dùng cuộn chuột */
+.previewContainer:focus-visible {
+  border-color: var(--accent-blue, #2563eb);
+}
+
+/* Badge số trang nổi góc trên */
+.pageBadge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: rgba(30, 41, 59, 0.75);
+  backdrop-filter: blur(4px);
+  color: #ffffff;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  z-index: 10;
+  pointer-events: none;
+  letter-spacing: 0.02em;
+}
+
+/* Hint overlay khi hover (Desktop) */
 .hintOverlay {
   position: absolute;
-  top: 16px;
+  top: 12px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(39, 55, 77, 0.7);
+  background-color: rgba(30, 41, 59, 0.8);
+  backdrop-filter: blur(4px);
   color: #fff;
-  padding: 6px 16px;
-  border-radius: var(--radius-full);
-  font-size: 13px;
+  padding: 5px 14px;
+  border-radius: var(--radius-full, 9999px);
+  font-size: 12px;
   font-weight: 500;
   z-index: 10;
   opacity: 0;
-  transition: opacity 0.3s ease;
+  transition: opacity 0.25s ease;
   pointer-events: none;
+  white-space: nowrap;
 }
 
 .previewContainer:hover .hintOverlay {
   opacity: 1;
 }
 
-/* Vùng chứa các trang - sẽ trượt lên/xuống */
+/* Nút bấm chuyển trang 2 bên (Floating Side Buttons) */
+.sideNavBtn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 15;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(4px);
+  color: var(--text-primary, #1e293b);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  transition: all 0.2s ease;
+  opacity: 0;
+}
+
+.previewContainer:hover .sideNavBtn {
+  opacity: 0.9;
+}
+
+.sideNavBtn:hover:not(:disabled) {
+  opacity: 1;
+  background-color: #ffffff;
+  transform: translateY(-50%) scale(1.08);
+  color: var(--accent-blue, #2563eb);
+}
+
+.sideNavBtn:disabled {
+  opacity: 0;
+  cursor: not-allowed;
+}
+
+.sideNavPrev {
+  left: 10px;
+}
+
+.sideNavNext {
+  right: 10px;
+}
+
+/* Vùng chứa các trang - trượt mượt mà */
 .pagesSlider {
   position: absolute;
   top: 0;
@@ -61,43 +133,110 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
 }
 
-/* Thanh phân trang ngang */
-.pagination {
+/* Thanh phân trang kết hợp Arrow + Dots dưới */
+.paginationBar {
   display: flex;
-  gap: 8px;
+  gap: 10px;
   justify-content: center;
   align-items: center;
-  padding: 8px;
-  background-color: var(--bg-surface);
-  border-radius: var(--radius-full);
-  box-shadow: var(--shadow-sm);
-  border: 1px solid var(--border-color-light);
+  padding: 6px 12px;
+  background-color: var(--bg-surface, #ffffff);
+  border-radius: var(--radius-full, 9999px);
+  box-shadow: var(--shadow-sm, 0 1px 3px rgba(0,0,0,0.06));
+  border: 1px solid var(--border-color, #e2e8f0);
+}
+
+.paginationArrowBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary, #64748b);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.paginationArrowBtn:hover:not(:disabled) {
+  background-color: var(--bg-accent, #f1f5f9);
+  color: var(--accent-blue, #2563eb);
+}
+
+.paginationArrowBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.paginationDots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
 }
 
 .pageDot {
-  width: 10px;
-  height: 10px;
+  width: 8px;
+  height: 8px;
   border-radius: 50%;
   border: none;
-  background-color: var(--border-color);
+  background-color: var(--border-color, #cbd5e1);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
   padding: 0;
 }
 
 .pageDot:hover {
-  background-color: var(--text-muted);
+  background-color: var(--text-muted, #94a3b8);
 }
 
 .activeDot {
-  background-color: var(--accent-blue);
-  width: 20px;
-  border-radius: 5px;
+  background-color: var(--accent-blue, #2563eb);
+  width: 18px;
+  border-radius: 4px;
 }
 
 .pdfDocument {
   display: contents;
+}
+
+.loadingState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-size: 13px;
+  color: var(--text-muted, #64748b);
+}
+
+/* Tối ưu Mobile / Touch devices */
+@media (max-width: 768px) {
+  .sideNavBtn {
+    opacity: 0.85; /* Luôn hiển thị nhẹ trên mobile để dễ nhận biết */
+    width: 34px;
+    height: 34px;
+  }
+  
+  .hintOverlay {
+    display: none; /* Ẩn hint cuộn chuột trên mobile, chỉ dùng badge */
+  }
+
+  .paginationArrowBtn {
+    width: 32px;
+    height: 32px; /* Tăng touch target trên mobile */
+  }
+  
+  .pageDot {
+    width: 9px;
+    height: 9px;
+  }
+  
+  .activeDot {
+    width: 22px;
+  }
 }

@@ -23,16 +23,26 @@
 }
 
 /* ===== LEFT SIDEBAR ===== */
+/* Wrapper chỉ stretch theo row, không cố định height */
 .leftSidebar {
   grid-area: leftSidebar;
-  position: sticky;
-  top: 0;
-  align-self: start;
-  height: 100vh;
-  overflow-y: auto;
+  align-self: stretch;
   border-right: 1px solid var(--border-color);
   background: var(--bg-primary);
+}
+
+/* Inner container mới: sticky + chiều cao viewport trừ header */
+.leftSidebar > * {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
   padding: 24px 16px;
+  scrollbar-width: none; /* Firefox */
+}
+
+.leftSidebar > *::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
 
 /* ===== MAIN AREA ===== */
@@ -177,23 +187,89 @@
   color: var(--accent-blue);
 }
 
+/* ===== INTENT SUBTITLE ===== */
+.intentSubtitle {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin: 4px 0 0 0;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
 .cardsGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
 
+/* ===== ROADMAP GRID (plan intent) ===== */
+.roadmapGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.roadmapCard {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-surface);
+  text-decoration: none;
+  transition: border-color 0.15s, background 0.15s, transform 0.15s;
+}
+
+.roadmapCard:hover {
+  border-color: var(--accent-blue);
+  background: color-mix(in srgb, var(--accent-blue) 6%, var(--bg-surface));
+  transform: translateX(4px);
+}
+
+.roadmapLevel {
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--accent-blue);
+  min-width: 36px;
+}
+
+.roadmapDesc {
+  flex: 1;
+  font-size: 14px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.roadmapArrow {
+  color: var(--text-muted);
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+
+.roadmapCard:hover .roadmapArrow {
+  color: var(--accent-blue);
+}
+
 /* ===== RIGHT SIDEBAR ===== */
 .rightSidebar {
   grid-area: rightSidebar;
-  position: sticky;
-  top: 0;
-  align-self: start;
-  height: 100vh;
-  overflow-y: auto;
+  align-self: stretch;
   border-left: 1px solid var(--border-color);
   background: var(--bg-primary);
+}
+
+.rightSidebar > * {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
   padding: 24px 16px;
+  scrollbar-width: none;
+}
+
+.rightSidebar > *::-webkit-scrollbar {
+  display: none;
 }
 
 /* ===== FOOTER ===== */

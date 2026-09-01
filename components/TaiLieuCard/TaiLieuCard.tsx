@@ -4,6 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { Download, Info, Bookmark, BookmarkCheck } from 'lucide-react';
+import { fixThumbnailUrl } from '@/utils/url';
 import styles from './TaiLieuCard.module.css';
 
 export interface TaiLieuCardProps {
@@ -34,13 +35,15 @@ export default function TaiLieuCard({
     router.push(`/tai-lieu/${slug}`);
   };
 
+  const safeThumbnail = fixThumbnailUrl(thumbnail);
+
   return (
     <div className={styles.card} onClick={handleCardClick} style={{ cursor: 'pointer' }}>
       {/* Cột 1: Bìa sách */}
       <div className={styles.coverCol}>
         <div className={styles.coverWrapper}>
           <Image
-            src={thumbnail}
+            src={safeThumbnail}
             alt={title}
             fill
             style={{ objectFit: 'cover' }}

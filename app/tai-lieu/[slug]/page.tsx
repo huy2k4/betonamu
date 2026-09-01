@@ -7,9 +7,9 @@ import Footer from '@/components/Footer/Footer';
 import DocumentPreview from '@/components/DocumentPreview/DocumentPreviewWrapper';
 import styles from './page.module.css';
 
-// Server-side Supabase client
 import { createClient } from '@/utils/supabase/server';
 import { cookies } from 'next/headers';
+import { fixUrl, fixThumbnailUrl } from '@/utils/url';
 
 export default async function DocumentDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
@@ -45,19 +45,8 @@ export default async function DocumentDetailPage({ params }: { params: Promise<{
   const level = 'Khác';
   const tags = ['Mới cập nhật'];
 
-  // Fix double https:// if it exists in old data, and replace the old private endpoint with the new public one.
-  const fixUrl = (url: string) => {
-    if (!url) return url;
-    let newUrl = url.replace('https://https://', 'https://').replace('https://https//', 'https://');
-    newUrl = newUrl.replace(
-      'https://f39ec6a63ea5e47ccdd6c1d892386666.r2.cloudflarestorage.com', 
-      'https://pub-3b036857fdd24996b2f83a969d8b61e8.r2.dev'
-    );
-    return newUrl;
-  };
-
   // Prepare fallback images in case it's not a PDF or loading fails
-  const thumbnailUrl = document.thumbnail_url ? fixUrl(document.thumbnail_url) : '/assets/minano-nihongo.jpg';
+  const thumbnailUrl = fixThumbnailUrl(document.thumbnail_url);
   const images = document.preview_file_url 
     ? document.preview_file_url.split(',').map(fixUrl)
     : [thumbnailUrl, thumbnailUrl, thumbnailUrl, thumbnailUrl, thumbnailUrl];

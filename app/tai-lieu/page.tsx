@@ -6,22 +6,13 @@ import styles from './page.module.css';
 import { createClient } from '@/utils/supabase/server';
 import { cookies } from 'next/headers';
 import { TaiLieuCardProps } from '@/components/TaiLieuCard/TaiLieuCard';
+import { fixThumbnailUrl } from '@/utils/url';
 import Footer from '@/components/Footer/Footer';
 
 export const metadata = {
   title: 'Tài liệu miễn phí | Betonamu',
   description:
     'Kho tài liệu tiếng Nhật miễn phí: Minna no Nihongo, Somatome, Mimikara Oboeru và đề thi JLPT các năm.',
-};
-
-const fixUrl = (url: string) => {
-  if (!url) return url;
-  let newUrl = url.replace('https://https://', 'https://').replace('https://https//', 'https://');
-  newUrl = newUrl.replace(
-    'https://f39ec6a63ea5e47ccdd6c1d892386666.r2.cloudflarestorage.com', 
-    'https://pub-3b036857fdd24996b2f83a969d8b61e8.r2.dev'
-  );
-  return newUrl;
 };
 
 export default async function TaiLieuPage() {
@@ -48,13 +39,13 @@ export default async function TaiLieuPage() {
     if (doc.file_type) {
       const type = doc.file_type.toUpperCase();
       if (['PDF', 'MP3', 'ZIP', 'DOCX'].includes(type)) {
-        fileType = type;
+        fileType = type as 'PDF' | 'MP3' | 'ZIP' | 'DOCX';
       }
     }
 
     return {
       slug: doc.slug,
-      thumbnail: doc.thumbnail_url ? fixUrl(doc.thumbnail_url) : '/assets/minano-nihongo.jpg',
+      thumbnail: fixThumbnailUrl(doc.thumbnail_url),
       title: doc.title,
       description: doc.summary || 'Chưa có mô tả.',
       tags: ['Mới cập nhật'],
