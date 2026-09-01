@@ -28,9 +28,11 @@ export async function middleware(request: NextRequest) {
   // IMPORTANT: always call getUser() — this refreshes the session cookie
   const { data: { user } } = await supabase.auth.getUser()
 
-  const isUserApiRoute = pathname.startsWith('/api/user')
-  const isAccountPage  = pathname.startsWith('/account')
+  const isUserApiRoute  = pathname.startsWith('/api/user');
+  const isAccountPage   = pathname.startsWith('/account');
+  const isAdminRoute    = pathname.startsWith('/admin') && pathname !== '/admin/login';
 
+  // Bảo vệ API user
   if (!user && isUserApiRoute) {
     return NextResponse.json(
       { error: 'Unauthorized: Please sign in to continue' },
@@ -38,11 +40,22 @@ export async function middleware(request: NextRequest) {
     )
   }
 
+  // Redirect về trang login nếu chưa đăng nhập khi vào account
   if (!user && isAccountPage) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
     url.searchParams.set('redirectTo', pathname)
     return NextResponse.redirect(url)
+  }
+
+  // Bảo vệ khu vực admin — chỉ cho phép email @betonamu.admin
+  if (isAdminRoute) {
+    const isAdmin = user?.email?.endsWith('@betonamu.admin') ?? false;
+    if (!isAdmin) {
+      const url = request.nextUrl.clone();
+      url.pathname = '/admin/login';
+      return NextResponse.redirect(url);
+    }
   }
 
   return response
