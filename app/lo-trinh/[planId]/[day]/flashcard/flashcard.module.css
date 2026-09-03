@@ -1,0 +1,391 @@
+.page {
+  min-height: 100vh;
+  background: #0f172a;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #e2e8f0;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Loading */
+.loadingPage {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background: #0f172a;
+  color: #64748b;
+}
+.spinner { animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Top bar */
+.topBar {
+  width: 100%;
+  max-width: 560px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+.backBtn {
+  padding: 0.45rem;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  color: #94a3b8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background 0.2s;
+  text-decoration: none;
+}
+.backBtn:hover { background: rgba(255,255,255,0.12); color: #e2e8f0; }
+.topInfo { display: flex; align-items: center; gap: 0.5rem; }
+.dayLabel { font-size: 0.9rem; font-weight: 700; color: #f1f5f9; }
+.reviewBadge {
+  padding: 0.15rem 0.5rem;
+  background: rgba(234,179,8,0.2);
+  border: 1px solid rgba(234,179,8,0.3);
+  border-radius: 999px;
+  color: #fde68a;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+.counter { color: #64748b; font-size: 0.875rem; }
+
+/* Progress bar */
+.progressBar {
+  width: 100%;
+  max-width: 560px;
+  height: 4px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 999px;
+  margin-bottom: 2rem;
+  overflow: hidden;
+}
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6);
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+/* ===== FLASHCARD ===== */
+.cardWrapper {
+  width: 100%;
+  max-width: 480px;
+  height: 320px;
+  perspective: 1200px;
+  cursor: pointer;
+  margin-bottom: 1.5rem;
+  user-select: none;
+}
+
+.card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 20px;
+}
+.cardFlipped { transform: rotateY(180deg); }
+
+.cardFront, .cardBack {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  padding: 2rem;
+  backface-visibility: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+/* Front: dark gradient */
+.cardFront {
+  background: linear-gradient(135deg, #1e293b, #0f172a);
+  border: 1px solid rgba(99,102,241,0.3);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.06);
+}
+/* Back: accent gradient */
+.cardBack {
+  background: linear-gradient(135deg, #1e1b4b, #1e293b);
+  border: 1px solid rgba(99,102,241,0.4);
+  box-shadow: 0 20px 60px rgba(99,102,241,0.2);
+  transform: rotateY(180deg);
+  overflow-y: auto;
+  justify-content: flex-start;
+}
+
+.reviewTag {
+  position: absolute;
+  top: 0.75rem;
+  left: 0.75rem;
+  padding: 0.15rem 0.5rem;
+  background: rgba(234,179,8,0.15);
+  border: 1px solid rgba(234,179,8,0.3);
+  border-radius: 999px;
+  color: #fde68a;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.speakBtn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  padding: 0.4rem;
+  background: rgba(255,255,255,0.06);
+  border: none;
+  border-radius: 8px;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.speakBtn:hover { background: rgba(255,255,255,0.12); color: #a5b4fc; }
+
+.cardWord {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #f1f5f9;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  text-align: center;
+}
+.cardReading {
+  font-size: 1.1rem;
+  color: #a5b4fc;
+  text-align: center;
+}
+.cardRomaji {
+  font-size: 0.875rem;
+  color: #475569;
+  text-align: center;
+}
+.flipHint {
+  position: absolute;
+  bottom: 1rem;
+  font-size: 0.78rem;
+  color: #334155;
+}
+
+/* Card back */
+.cardWordBack { font-size: 2rem; font-weight: 800; color: #f1f5f9; margin-bottom: 0.25rem; text-align: center; }
+.cardReadingBack { font-size: 0.9rem; color: #a5b4fc; text-align: center; margin-bottom: 0.1rem; }
+.cardHanViet { font-size: 0.85rem; color: #64748b; text-align: center; margin-bottom: 0.75rem; }
+.cardMeanings { width: 100%; }
+.cardMeaning {
+  padding: 0.35rem 0;
+  color: #e2e8f0;
+  font-size: 0.95rem;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.cardMeaning:last-child { border-bottom: none; }
+.cardPos {
+  margin-top: 0.5rem;
+  font-size: 0.75rem;
+  color: #475569;
+  text-align: center;
+}
+.cardExample {
+  margin-top: 0.75rem;
+  padding: 0.75rem;
+  background: rgba(255,255,255,0.04);
+  border-radius: 10px;
+  width: 100%;
+  border-left: 3px solid rgba(99,102,241,0.5);
+}
+.exSentence { font-size: 0.85rem; color: #cbd5e1; margin-bottom: 0.2rem; line-height: 1.5; }
+.exReading { font-size: 0.78rem; color: #64748b; margin-bottom: 0.2rem; }
+.exTranslation { font-size: 0.82rem; color: #94a3b8; }
+
+/* ===== RESULT BUTTONS ===== */
+.resultBtns {
+  display: flex;
+  gap: 0.75rem;
+  width: 100%;
+  max-width: 480px;
+  margin-bottom: 1rem;
+  animation: slideUp 0.25s ease;
+}
+@keyframes slideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+.resultBtn {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.75rem 0.5rem;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.btnUnknown { background: rgba(239,68,68,0.1); color: #f87171; border-color: rgba(239,68,68,0.2); }
+.btnUnknown:hover { background: rgba(239,68,68,0.2); }
+.btnHard { background: rgba(234,179,8,0.1); color: #fde68a; border-color: rgba(234,179,8,0.2); }
+.btnHard:hover { background: rgba(234,179,8,0.2); }
+.btnKnown { background: rgba(34,197,94,0.1); color: #86efac; border-color: rgba(34,197,94,0.2); }
+.btnKnown:hover { background: rgba(34,197,94,0.2); }
+.resultBtnActive { transform: scale(0.96); opacity: 0.8; }
+
+/* ===== NAV BUTTONS ===== */
+.navBtns {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.navBtn {
+  padding: 0.5rem 1.25rem;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  color: #94a3b8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: background 0.2s;
+}
+.navBtn:hover:not(:disabled) { background: rgba(255,255,255,0.12); color: #e2e8f0; }
+.navBtn:disabled { opacity: 0.3; cursor: not-allowed; }
+
+/* Progress dots */
+.dots {
+  display: flex;
+  gap: 0.3rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 480px;
+}
+.dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  transition: all 0.2s;
+}
+.dotCurrent { background: #6366f1; transform: scale(1.3); }
+.dotKnown { background: #22c55e; }
+.dotHard { background: #eab308; }
+.dotUnknown { background: #ef4444; }
+
+/* ===== DONE SCREEN ===== */
+.donePage {
+  min-height: 100vh;
+  background: #0f172a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+.doneCard {
+  width: 100%;
+  max-width: 440px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 24px;
+  padding: 2.5rem 2rem;
+  text-align: center;
+}
+.doneEmoji { font-size: 3rem; margin-bottom: 0.75rem; }
+.doneTitle { font-size: 1.5rem; font-weight: 800; color: #f1f5f9; margin: 0 0 1.25rem; }
+
+.doneProgress {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+.doneProgressBar {
+  flex: 1;
+  height: 8px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+.doneProgressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #22c55e, #86efac);
+  border-radius: 999px;
+  transition: width 1s ease;
+}
+.donePct { font-size: 1rem; font-weight: 700; color: #86efac; min-width: 40px; }
+
+.doneStats {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+.doneStat {
+  flex: 1;
+  padding: 1rem 0.5rem;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+}
+.statKnown { background: rgba(34,197,94,0.1); color: #86efac; }
+.statHard { background: rgba(234,179,8,0.1); color: #fde68a; }
+.statUnknown { background: rgba(239,68,68,0.1); color: #fca5a5; }
+.doneStatNum { font-size: 1.5rem; font-weight: 800; }
+.doneStatLabel { font-size: 0.75rem; opacity: 0.8; }
+
+.doneHint {
+  background: rgba(99,102,241,0.1);
+  border: 1px solid rgba(99,102,241,0.2);
+  border-radius: 10px;
+  padding: 0.75rem 1rem;
+  color: #a5b4fc;
+  font-size: 0.85rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.5;
+}
+
+.doneActions { display: flex; gap: 0.75rem; }
+.btnRestart {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.75rem;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  color: #94a3b8;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btnRestart:hover { background: rgba(255,255,255,0.12); color: #e2e8f0; }
+.btnDone {
+  flex: 1;
+  padding: 0.75rem;
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.btnDone:hover { opacity: 0.85; }
+
+/* Responsive */
+@media (max-width: 480px) {
+  .cardWord { font-size: 2.5rem; }
+  .resultBtns { gap: 0.5rem; }
+  .resultBtn { padding: 0.6rem 0.3rem; font-size: 0.75rem; }
+}

@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Menu, Search, User, LogOut, Bookmark, UserCircle } from 'lucide-react';
+import { Menu, Search, User, LogOut, Bookmark, UserCircle, BookOpen } from 'lucide-react';
 import styles from './Header.module.css';
 import CategoryModal from '../CategoryModal/CategoryModal';
 import RecommendsModal from '../RecommendsModal/RecommendsModal';
@@ -190,6 +190,9 @@ export default function Header() {
                       <Link href="/account/balo" className={styles.accountModalItem} onClick={() => setIsAccountOpen(false)}>
                         <Bookmark size={18} /> Balo của tôi
                       </Link>
+                      <Link href="/lo-trinh" className={styles.accountModalItem} onClick={() => setIsAccountOpen(false)}>
+                        <BookOpen size={18} /> Lộ trình của tôi
+                      </Link>
                       <button className={styles.accountModalItem} onClick={handleLogout}>
                         <LogOut size={18} /> Đăng xuất
                       </button>
@@ -218,11 +221,7 @@ export default function Header() {
         isOpen={isLoginModalOpen} 
         onClose={() => setIsLoginModalOpen(false)} 
       />
-
-      {/* Div dọc rỗng 2 */}
-      <div className={styles.bottomRow}>
-        {/* Để trống theo yêu cầu */}
-      </div>
     </div>
   );
 }
+

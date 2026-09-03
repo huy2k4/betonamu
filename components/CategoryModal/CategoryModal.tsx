@@ -40,7 +40,7 @@ export default function CategoryModal() {
               onMouseEnter={() => handleMouseEnter('tu-vung')}
               onMouseLeave={handleMouseLeave}
             >
-              Học từ vựng
+              <Link href="/tu-vung" className={styles.menuItemLink}>Học từ vựng</Link>
             </li>
             <li 
               className={`${styles.menuItem} ${activeTab === 'kaiwa' ? styles.activeMenuItem : ''}`}
@@ -60,23 +60,23 @@ export default function CategoryModal() {
           <div className={styles.Section}>
             <h3 className={styles.SectionTitle}>Trình độ JLPT</h3>
             <div className={styles.Grid2Col}>
-               <a href="#" className={styles.LevelLink}><span className={styles.LevelBadge}>Sơ cấp N5</span></a>
-               <a href="#" className={styles.LevelLink}><span className={styles.LevelBadge}>Sơ cấp N4</span></a>
-               <a href="#" className={styles.LevelLink}><span className={styles.LevelBadge}>Trung cấp N3</span></a>
-               <a href="#" className={styles.LevelLink}><span className={styles.LevelBadge}>Trung cấp N2</span></a>
-               <a href="#" className={styles.LevelLink}><span className={styles.LevelBadge}>Cao cấp N1</span></a>
+               <Link href="/tai-lieu?level=N5" className={styles.LevelLink}><span className={styles.LevelBadge}>Sơ cấp N5</span></Link>
+               <Link href="/tai-lieu?level=N4" className={styles.LevelLink}><span className={styles.LevelBadge}>Sơ cấp N4</span></Link>
+               <Link href="/tai-lieu?level=N3" className={styles.LevelLink}><span className={styles.LevelBadge}>Trung cấp N3</span></Link>
+               <Link href="/tai-lieu?level=N2" className={styles.LevelLink}><span className={styles.LevelBadge}>Trung cấp N2</span></Link>
+               <Link href="/tai-lieu?level=N1" className={styles.LevelLink}><span className={styles.LevelBadge}>Cao cấp N1</span></Link>
             </div>
           </div>
           
           <div className={styles.Section}>
             <h3 className={styles.SectionTitle}>Kỹ năng</h3>
              <ul className={styles.SkillList}>
-               <li><a href="#">Hán tự</a></li>
-               <li><a href="#">Ngữ pháp</a></li>
-               <li><a href="#">Từ vựng</a></li>
-               <li><a href="#">Nghe</a></li>
-               <li><a href="#">Nói</a></li>
-               <li><a href="#">Đọc</a></li>
+               <li><Link href="/tai-lieu?type=kanji">Hán tự</Link></li>
+               <li><Link href="/tai-lieu?type=grammar">Ngữ pháp</Link></li>
+               <li><Link href="/tu-vung">Từ vựng</Link></li>
+               <li><Link href="/tai-lieu?type=audio">Nghe</Link></li>
+               <li><Link href="/tai-lieu?type=speaking">Nói</Link></li>
+               <li><Link href="/tai-lieu?type=reading">Đọc</Link></li>
              </ul>
           </div>
         </aside>
@@ -186,29 +186,29 @@ export default function CategoryModal() {
             <>
               <h2 className={styles.MainTitle}>Học từ vựng</h2>
               <div className={styles.VocabGrid}>
-                <Link href="/tu-vung/kanji" className={styles.VocabItem}>
-                  <div className={styles.VocabIconBg}>🧠</div>
-                  <div className={styles.VocabIcon}>🧠</div>
-                  <div className={styles.VocabTitle}>Kanji thông minh</div>
-                  <div className={styles.VocabSubtitle}>Học Hán tự theo ngữ cảnh</div>
+                <Link href="/tu-vung" className={styles.VocabItem}>
+                  <div className={styles.VocabIconBg}>📖</div>
+                  <div className={styles.VocabIcon}>📖</div>
+                  <div className={styles.VocabTitle}>Minna no Nihongo</div>
+                  <div className={styles.VocabSubtitle}>Kho từ vựng theo bài N5 - N1</div>
                 </Link>
-                <Link href="/tu-vung/flashcard" className={styles.VocabItem}>
+                <Link href="/tu-vung" className={styles.VocabItem}>
                   <div className={styles.VocabIconBg}>📇</div>
                   <div className={styles.VocabIcon}>📇</div>
-                  <div className={styles.VocabTitle}>Flashcard</div>
-                  <div className={styles.VocabSubtitle}>Ghi nhớ từ vựng hiệu quả</div>
+                  <div className={styles.VocabTitle}>Từ vựng theo chủ đề</div>
+                  <div className={styles.VocabSubtitle}>18 chủ đề đời sống & giao tiếp</div>
                 </Link>
-                <Link href="/tu-vung/kiem-tra" className={styles.VocabItem}>
-                  <div className={styles.VocabIconBg}>📝</div>
-                  <div className={styles.VocabIcon}>📝</div>
-                  <div className={styles.VocabTitle}>Kiểm tra</div>
-                  <div className={styles.VocabSubtitle}>Luyện đề & trắc nghiệm</div>
+                <Link href="/lo-trinh" className={styles.VocabItem}>
+                  <div className={styles.VocabIconBg}>🗺️</div>
+                  <div className={styles.VocabIcon}>🗺️</div>
+                  <div className={styles.VocabTitle}>Lộ trình của tôi</div>
+                  <div className={styles.VocabSubtitle}>Kế hoạch Spaced Repetition</div>
                 </Link>
-                <Link href="/tu-vung/thong-ke" className={styles.VocabItem}>
-                  <div className={styles.VocabIconBg}>📈</div>
-                  <div className={styles.VocabIcon}>📈</div>
-                  <div className={styles.VocabTitle}>Thống kê / Lộ trình</div>
-                  <div className={styles.VocabSubtitle}>Theo dõi tiến độ học tập</div>
+                <Link href="/lo-trinh" className={styles.VocabItem}>
+                  <div className={styles.VocabIconBg}>🔥</div>
+                  <div className={styles.VocabIcon}>🔥</div>
+                  <div className={styles.VocabTitle}>Chuỗi học Streak</div>
+                  <div className={styles.VocabSubtitle}>Theo dõi tiến độ tích lũy từ</div>
                 </Link>
               </div>
             </>

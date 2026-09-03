@@ -4,6 +4,19 @@ import { type NextRequest, NextResponse } from 'next/server'
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
 
+  // Cứu hộ khi Supabase Dashboard cấu hình nhầm Site URL thành https://domain/*
+  // dẫn tới việc Supabase chuyển hướng về /*?code=xxx gây 404.
+  // Tự động chuyển hướng về /auth/callback để hoàn tất đăng nhập session.
+  if (pathname === '/*' || pathname === '/%2A' || pathname.startsWith('/*') || pathname.startsWith('/%2A')) {
+    const url = request.nextUrl.clone();
+    if (request.nextUrl.searchParams.has('code')) {
+      url.pathname = '/auth/callback';
+    } else {
+      url.pathname = '/';
+    }
+    return NextResponse.redirect(url);
+  }
+
   // Forward pathname vào request headers — cho phép Server Components (layout) đọc được
   const requestHeaders = new Headers(request.headers);
   requestHeaders.set('x-pathname', pathname);

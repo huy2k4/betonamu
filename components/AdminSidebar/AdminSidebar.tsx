@@ -11,6 +11,9 @@ import {
   LogOut,
   Activity,
   AlertTriangle,
+  Languages,
+  Type,
+  Plus,
 } from 'lucide-react';
 import { createClient } from '@/utils/supabase/client';
 import { useRouter } from 'next/navigation';
@@ -31,6 +34,15 @@ const NAV_ITEMS = [
       { label: 'Tài liệu', href: '/admin/tai-lieu', icon: BookOpen },
       { label: 'Upload tài liệu', href: '/admin/upload', icon: Upload },
       { label: 'Người dùng', href: '/admin/users', icon: Users },
+    ],
+  },
+  {
+    section: 'Quản lý Từ vựng',
+    items: [
+      { label: 'Từ vựng', href: '/admin/tu-vung', icon: Languages },
+      { label: 'Thêm từ vựng', href: '/admin/tu-vung/them', icon: Plus },
+      { label: 'Kanji', href: '/admin/kanji', icon: Type },
+      { label: 'Thêm Kanji', href: '/admin/kanji/them', icon: Plus },
     ],
   },
   {

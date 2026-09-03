@@ -27,23 +27,23 @@
 .leftSidebar {
   grid-area: leftSidebar;
   align-self: stretch;
-  border-right: 1px solid var(--border-color);
-  background: var(--bg-primary);
+  border-right: 1px solid var(--border-color, #DDE6ED);
+  background: var(--bg-muted, #f8f9fa);
+  position: relative;
+  z-index: 5;
+  padding-top: 24px;
 }
 
-/* Inner container mới: sticky + chiều cao viewport trừ header */
+/* Inner container: sticky cố định khi scroll cho đến hết mainArea, bị footer cản */
 .leftSidebar > * {
   position: sticky;
-  top: 0;
-  height: 100vh;
-  overflow-y: auto;
-  padding: 24px 16px;
-  scrollbar-width: none; /* Firefox */
+  top: 98px; /* 74px header + 24px khoảng cách đỉnh không bao giờ bị mất */
+  padding: 0 0 24px 12px;
+  overflow: visible;
+  height: fit-content;
 }
 
-.leftSidebar > *::-webkit-scrollbar {
-  display: none; /* Chrome/Safari */
-}
+
 
 /* ===== MAIN AREA ===== */
 .mainArea {
@@ -257,14 +257,15 @@
   align-self: stretch;
   border-left: 1px solid var(--border-color);
   background: var(--bg-primary);
+  padding-top: 24px;
 }
 
 .rightSidebar > * {
   position: sticky;
-  top: 0;
-  height: 100vh;
+  top: 98px; /* 74px header + 24px khoảng cách đỉnh không bao giờ bị mất */
+  max-height: calc(100vh - 120px);
   overflow-y: auto;
-  padding: 24px 16px;
+  padding: 0 16px 24px 16px;
   scrollbar-width: none;
 }
 

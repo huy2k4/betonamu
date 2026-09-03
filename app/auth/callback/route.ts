@@ -6,7 +6,12 @@ export async function GET(request: Request) {
   const url = new URL(request.url)
   const searchParams = url.searchParams
   const code = searchParams.get('code')
-  const next = searchParams.get('next') ?? '/'
+  const rawNext = searchParams.get('next') ?? '/'
+  let next = rawNext.startsWith('/') ? rawNext : `/${rawNext}`
+  // Đảm bảo next không trỏ về /*
+  if (next === '/*' || next.startsWith('/*')) {
+    next = '/'
+  }
 
   // Khi deploy lên Vercel/VPS, request.url có thể trả về localhost hoặc server nội bộ
   // Ta cần ưu tiên lấy domain thực từ header (do Nginx/Vercel proxy gửi tới)

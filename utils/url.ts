@@ -25,3 +25,19 @@ export const fixThumbnailUrl = (url?: string | null, fallback: string = '/assets
 
   return cleaned;
 };
+
+export const toCleanSlug = (str: string): string => {
+  if (!str) return '';
+  return str
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[đĐ]/g, 'd')
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
+};
+
+export const normalizeNfc = (str: string): string => {
+  if (!str) return '';
+  return str.normalize('NFC');
+};

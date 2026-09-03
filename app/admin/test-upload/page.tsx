@@ -40,8 +40,9 @@ export default function TestUploadPage() {
       if (!res3.ok) throw new Error('Lỗi lưu DB');
 
       setStatus(`✅ Hoàn tất! File của bạn ở đây: ${data1.fileUrl}`);
-    } catch (err: any) {
-      setStatus(`❌ Lỗi: ${err.message}`);
+    } catch (err: unknown) {
+      const errorObj = err as Error;
+      setStatus(`❌ Lỗi: ${errorObj.message || 'Lỗi không xác định'}`);
     }
   };
 
